@@ -1,0 +1,128 @@
+aside.leftnav__container {
+	position: relative;
+	overflow-x: visible;
+	width: var(--collapsed-width);
+	height: 100%;
+
+	--collapsed-width: 4rem;
+	--expanded-width: 15rem;
+	--transition-duration: 0.3s;
+
+	& > nav.leftnav {
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-width: var(--collapsed-width);
+		width: var(--collapsed-width);
+		height: 100%;
+		overflow: hidden;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-small);
+		padding-bottom: var(--spacing-small);
+		background-color: var(--color-white);
+		// border-right: var(--border-default);
+		box-shadow: var(--shadow-medium);
+		transition: width var(--transition-duration) ease-in-out;
+
+		&[data-expanded] {
+			width: var(--expanded-width);
+		}
+
+		& > div.leftnav__header {
+			display: grid;
+			grid-template-columns: 3rem 1fr;
+			gap: var(--spacing-xsmall);
+			align-items: center;
+			padding: var(--spacing-xsmall);
+
+			&[data-expanded] > h1 {
+				opacity: 1;
+				width: 10.5rem;
+			}
+
+			& > img {
+				width: 3rem;
+				aspect-ratio: 1 / 1;
+			}
+
+			& > h1 {
+				text-wrap: nowrap;
+				transition: all var(--transition-duration) ease-in-out;
+				opacity: 0;
+				width: 0;
+				font-size: var(--font-size-xlarge);
+				overflow: hidden;
+				font-family: 'Pacifico', cursive;
+				font-weight: var(--font-weight-normal);
+			}
+		}
+
+		& > div.leftnav__main {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			flex: 1;
+
+			& > ul {
+				display: flex;
+				flex-direction: column;
+				list-style: none;
+
+				&.top {
+					flex: 1;
+				}
+
+				&.bottom {
+					flex-shrink: 1;
+				}
+
+				& > div.separator {
+					height: 1px;
+					background-color: var(--color-neutral-200);
+					margin: var(--spacing-xsmall);
+				}
+
+				& > li.leftnav__nav-item {
+					display: grid;
+					grid-template-columns: 1.5rem 1fr;
+					gap: var(--spacing-xsmall);
+					padding-inline: 1.25rem;
+					padding-block: var(--spacing-xsmall);
+					align-items: center;
+					cursor: pointer;
+					pointer-events: auto;
+
+					&[data-expanded] > span {
+						opacity: 1;
+						width: 13rem;
+					}
+
+					&:active,
+					&:hover {
+						background-color: var(--color-neutral-200);
+					}
+
+					&[data-active] {
+						background-color: var(--color-brand-green);
+						color: var(--color-white);
+					}
+
+					& > svg {
+						width: 1.5rem;
+						height: 1.5rem;
+					}
+
+					& > span {
+						opacity: 0;
+						width: 0;
+						text-wrap: nowrap;
+						transition: all var(--transition-duration) ease-in-out;
+						overflow: hidden;
+					}
+				}
+			}
+		}
+	}
+}

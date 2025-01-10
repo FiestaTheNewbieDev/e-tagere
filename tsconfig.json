@@ -22,6 +22,9 @@
       "@app/*": ["src/app/*"],
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
+      "@config/*": ["src/config/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@misc/*": ["src/misc/*"],
       "@styles/*": ["src/styles/*"],
       "@types/*": ["src/types/*"]
     }
