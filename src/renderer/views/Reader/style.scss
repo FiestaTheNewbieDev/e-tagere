@@ -1,0 +1,13 @@
+main.reader {
+	padding: var(--spacing-large);
+
+	div.reader__content {
+		background-color: var(--color-white);
+		margin-inline: auto;
+		border-radius: var(--rounded-xlarge);
+		max-width: 800px;
+		width: 100%;
+		min-height: 100%;
+		box-shadow: var(--shadow-medium);
+	}
+}

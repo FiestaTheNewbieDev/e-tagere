@@ -1,13 +1,15 @@
 import path from "path";
 
 export const alias = {
-  "@": path.resolve(__dirname, "src"),
-  "@app": path.resolve(__dirname, "src/app"),
-  "@assets": path.resolve(__dirname, "src/assets"),
-  "@components": path.resolve(__dirname, "src/components"),
-  "@config": path.resolve(__dirname, "src/config"),
-  "@contexts": path.resolve(__dirname, "src/contexts"),
-  "@misc": path.resolve(__dirname, "src/misc"),
-  "@styles": path.resolve(__dirname, "src/styles"),
-  "@types": path.resolve(__dirname, "src/types"),
+  "@main": path.resolve(__dirname, "src/main"),
+  "@services": path.resolve(__dirname, "src/main/services"),
+  "@preload": path.resolve(__dirname, "src/preload"),
+  "@renderer": path.resolve(__dirname, "src/renderer"),
+  "@assets": path.resolve(__dirname, "src/renderer/assets"),
+  "@components": path.resolve(__dirname, "src/renderer/components"),
+  "@contexts": path.resolve(__dirname, "src/renderer/contexts"),
+  "@styles": path.resolve(__dirname, "src/renderer/styles"),
+  "@views": path.resolve(__dirname, "src/renderer/views"),
+  "@mytypes": path.resolve(__dirname, "src/types"),
+  "@utils": path.resolve(__dirname, "src/utils"),
 };

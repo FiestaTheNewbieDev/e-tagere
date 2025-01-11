@@ -1,0 +1,79 @@
+@use './variables.scss' as *;
+@use './fonts.scss' as *;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-normal);
+	font-size: var(--font-size-normal);
+}
+
+body {
+	background-color: var(--color-slate-50);
+
+	& > div#root {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+			'sidebar navbar'
+			'sidebar main';
+		width: 100vw;
+		height: 100vh;
+
+		&[data-theme='light'] {
+			--color-text: var(--color-black);
+		}
+
+		&[data-theme='dark'] {
+			--color-text: var(--color-white);
+		}
+
+		& > aside.sidebar__container {
+			grid-area: sidebar;
+		}
+
+		& > nav.navbar {
+			grid-area: navbar;
+		}
+
+		& > main {
+			grid-area: main;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+		}
+	}
+}
+
+h1 {
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-heading1);
+}
+
+h2 {
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-heading2);
+}
+
+h3 {
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-heading3);
+}
+
+p {
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-normal);
+	font-size: var(--font-size-normal);
+}
+
+small {
+	font-family: 'Inter', sans-serif;
+	font-weight: var(--font-weight-thin);
+	font-size: var(--font-size-small);
+}

@@ -1,0 +1,33 @@
+button.button,
+a.link-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-xsmall);
+	width: fit-content;
+	padding: var(--spacing-xsmall);
+	border-radius: var(--rounded-small);
+	border-style: none;
+	cursor: pointer;
+	pointer-events: auto;
+
+	&[data-full] {
+		width: 100%;
+	}
+
+	&[data-variant='primary'] {
+		color: var(--color-white);
+		background-color: var(--color-brand-green);
+	}
+
+	&[data-variant='primary-outline'] {
+		background-color: transparent;
+		border: var(--border-width-default) var(--border-style-default)
+			var(--color-brand-green);
+	}
+
+	svg {
+		width: var(--font-size-normal);
+		height: var(--font-size-normal);
+	}
+}

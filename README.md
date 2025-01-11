@@ -1,4 +1,4 @@
-<h1 align="center">E-tagère</h1>
+<h1 align="center">e-tagère</h1>
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-grey?style=flat-square&logo=typescript)
 ![Electron](https://img.shields.io/badge/Electron-grey?style=flat-square&logo=electron)
@@ -9,4 +9,4 @@
 ![ESLint](https://img.shields.io/badge/ESLint-grey?style=flat-square&logo=eslint)
 ![Prettier](https://img.shields.io/badge/Prettier-grey?style=flat-square&logo=prettier)
 
-**E-tagère** is a simple e-book reader, built using **Electron** and **React**.
+**e-tagère** is a simple e-book reader, built using **Electron** and **React**.
