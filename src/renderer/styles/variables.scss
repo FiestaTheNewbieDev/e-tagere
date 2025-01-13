@@ -1,49 +1,69 @@
 :root {
-  --color-slate-50: #f8fafc;
+	--color-slate-50: #f8fafc;
 
-  --color-neutral-200: #e5e5e5;
-  --color-neutral-500: #737373;
+	--color-neutral-200: #e5e5e5;
+	--color-neutral-500: #737373;
 
-  --color-brand-green: #85C17E;
-  --color-white: #ffffff;
-  --color-black: #000000;
+	--color-brand-green: #85c17e;
+	--color-white: #ffffff;
+	--color-black: #000000;
 
-  --spacing-xsmall: 0.5rem;  /* 8px */
-  --spacing-small: 1rem;  /* 16px */
-  --spacing-medium: 1.5rem;  /* 24px */
-  --spacing-large: 2rem;  /* 32px */
-  --spacing-xlarge: 3rem;  /* 48px */
-  --spacing-xxlarge: 4rem; /* 64px */
+	--spacing-xsmall: 0.5rem; /* 8px */
+	--spacing-small: 1rem; /* 16px */
+	--spacing-medium: 1.5rem; /* 24px */
+	--spacing-large: 2rem; /* 32px */
+	--spacing-xlarge: 3rem; /* 48px */
+	--spacing-xxlarge: 4rem; /* 64px */
 
-  --border-width-default: 1px;
-  --border-style-default: solid;
-  --border-color-default: var(--color-neutral-200);
-  --border-default: var(--border-width-default) var(--border-style-default)
-    var(--border-color-default);
+	--border-width-default: 1px;
+	--border-style-default: solid;
+	--border-color-default: var(--color-neutral-200);
+	--border-default: var(--border-width-default) var(--border-style-default)
+		var(--border-color-default);
 
-  --font-size-xsmall: 0.75rem;
-  --font-size-small: 0.875rem;
-  --font-size-normal: 1rem;
-  --font-size-large: 1.25rem;
-  --font-size-xlarge: 1.5rem;
-  --font-size-heading3: 1.75rem;
-  --font-size-heading2: 2rem;
-  --font-size-heading1: 2.5rem;
-  --font-size-heading0: 3rem;
+	--font-size-xsmall: 0.75rem;
+	--font-size-small: 0.875rem;
+	--font-size-normal: 1rem;
+	--font-size-large: 1.25rem;
+	--font-size-xlarge: 1.5rem;
+	--font-size-heading3: 1.75rem;
+	--font-size-heading2: 2rem;
+	--font-size-heading1: 2.5rem;
+	--font-size-heading0: 3rem;
 
-  --font-weight-thin: 400;
-  --font-weight-normal: 500;
-  --font-weight-bold: 700;
-  --font-weight-xbold: 800;
+	--font-weight-thin: 400;
+	--font-weight-normal: 500;
+	--font-weight-bold: 700;
+	--font-weight-xbold: 800;
 
-  --rounded-xsmall: 0.25rem; /* 4px */
-  --rounded-small: 0.375rem; /* 6px */
-  --rounded-medium: 0.5rem; /* 8px */
-  --rounded-large: 0.75rem; /* 12px */
-  --rounded-xlarge: 1rem; /* 16px */
+	--rounded-xsmall: 0.25rem; /* 4px */
+	--rounded-small: 0.375rem; /* 6px */
+	--rounded-medium: 0.5rem; /* 8px */
+	--rounded-large: 0.75rem; /* 12px */
+	--rounded-xlarge: 1rem; /* 16px */
 
-  --shadow-xsmall: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-small: 0px 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-medium: 0px 4px 6px rgba(0, 0, 0, 0.3);
-  --shadow-large: 0px 8px 16px rgba(0, 0, 0, 0.4);
+	--shadow-xsmall: 0px 1px 2px rgba(0, 0, 0, 0.2);
+	--shadow-small: 0px 2px 4px rgba(0, 0, 0, 0.3);
+	--shadow-medium: 0px 4px 6px rgba(0, 0, 0, 0.3);
+	--shadow-large: 0px 8px 16px rgba(0, 0, 0, 0.4);
+
+	&[data-theme='light'] {
+		--color-primary-text: var(--color-black);
+		--color-secondary-text: var(--color-neutral-500);
+
+		--color-primary-background: var(--color-slate-50);
+		--color-secondary-background: var(--color-white);
+
+		--color-border: var(--color-neutral-200);
+	}
+
+	&[data-theme='dark'] {
+		--color-primary-text: var(--color-white);
+		--color-secondary-text: var(--color-neutral-500);
+
+		--color-primary-background: #121212;
+		--color-secondary-background: #1f1f1f;
+
+		--color-border: none;
+	}
 }

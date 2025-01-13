@@ -18,4 +18,8 @@ export const mainConfig: Configuration = {
 		extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
 		alias,
 	},
+	externals: {
+		'@prisma/client': 'commonjs @prisma/client',
+		prisma: 'commonjs prisma',
+	},
 };

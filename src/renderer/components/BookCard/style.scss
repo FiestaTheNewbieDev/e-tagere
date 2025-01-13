@@ -1,0 +1,44 @@
+div.book-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xsmall);
+
+	& > * {
+		cursor: pointer;
+		pointer-events: auto;
+	}
+
+	& > div.separator {
+		height: 1px;
+		width: 100%;
+		background-color: var(--color-neutral-200);
+		pointer-events: none;
+	}
+
+	& > img.cover {
+		width: 90%;
+		margin: 5%;
+		aspect-ratio: 2/3;
+		object-fit: cover;
+		border-radius: var(--rounded-small);
+		box-shadow: var(--shadow-medium);
+		transition: scale 0.3s ease-in-out;
+
+		&:hover {
+			scale: 1.1;
+		}
+	}
+
+	& > label {
+		text-wrap: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	& > small {
+		color: var(--color-neutral-500);
+		text-wrap: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}

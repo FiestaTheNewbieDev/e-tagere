@@ -1,21 +1,18 @@
 import { Button } from '@components/Button';
+import LibraryActions from '@store/library/actions';
 import { Folder, Plus } from 'lucide-react';
 import './style.scss';
 
 export default function Navbar() {
-	async function handleAddBooks() {
-		const files: string[] = await window.electronAPI.dialog
+	const handleAddBooks = async () =>
+		await window.electronAPI.dialog
 			.importBooks()
-			.catch(() => []);
-		console.log(files);
-	}
+			.then(() => LibraryActions.fetchLibrary());
 
-	async function handleAddFolder() {
-		const folder: string | null = await window.electronAPI.dialog
+	const handleAddFolder = async () =>
+		await window.electronAPI.dialog
 			.importFolder()
-			.catch(() => null);
-		console.log(folder);
-	}
+			.then(() => LibraryActions.fetchLibrary());
 
 	return (
 		<nav className="navbar">

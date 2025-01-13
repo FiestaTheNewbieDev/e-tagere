@@ -1,7 +1,14 @@
+import LibraryService from '@main/services/LibraryService';
+import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import { BrowserWindow, dialog } from 'electron';
 
 export default class DialogService {
 	private static instance: DialogService;
+	private libraryService: LibraryService;
+
+	constructor() {
+		this.libraryService = LibraryService.getInstance();
+	}
 
 	public static getInstance(): DialogService {
 		if (!DialogService.instance) {
@@ -10,7 +17,7 @@ export default class DialogService {
 		return DialogService.instance;
 	}
 
-	async importBooks(browserWindow: BrowserWindow): Promise<string[]> {
+	async importBooks(browserWindow: BrowserWindow) {
 		try {
 			const { canceled, filePaths } = await dialog.showOpenDialog(
 				browserWindow,
@@ -18,7 +25,12 @@ export default class DialogService {
 					title: 'Import Books',
 					buttonLabel: 'Import',
 					properties: ['openFile', 'multiSelections'],
-					filters: [{ name: 'EBooks', extensions: ['epub'] }],
+					filters: [
+						{
+							name: 'EBooks',
+							extensions: ALLOWED_EBOOK_EXTENSIONS,
+						},
+					],
 				},
 			);
 
@@ -26,13 +38,13 @@ export default class DialogService {
 				return Promise.reject(new Error('No books selected'));
 			}
 
-			return filePaths;
+			return this.libraryService.indexFiles(filePaths);
 		} catch (error) {
 			return Promise.reject(error);
 		}
 	}
 
-	async importFolder(browserWindow: BrowserWindow): Promise<string> {
+	async importFolder(browserWindow: BrowserWindow) {
 		try {
 			const { canceled, filePaths } = await dialog.showOpenDialog(
 				browserWindow,
@@ -47,7 +59,9 @@ export default class DialogService {
 				return Promise.reject(new Error('No folder selected'));
 			}
 
-			return filePaths[0];
+			const dir = filePaths[0];
+
+			return this.libraryService.indexDirectory(dir);
 		} catch (error) {
 			return Promise.reject(error);
 		}

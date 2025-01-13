@@ -11,7 +11,7 @@
 }
 
 body {
-	background-color: var(--color-slate-50);
+	background-color: var(--color-primary-background);
 
 	& > div#root {
 		display: grid;
@@ -22,14 +22,6 @@ body {
 			'sidebar main';
 		width: 100vw;
 		height: 100vh;
-
-		&[data-theme='light'] {
-			--color-text: var(--color-black);
-		}
-
-		&[data-theme='dark'] {
-			--color-text: var(--color-white);
-		}
 
 		& > aside.sidebar__container {
 			grid-area: sidebar;

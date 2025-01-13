@@ -1,0 +1,13 @@
+{
+    "sidebar": {
+        "all_books": "All books",
+        "last_reads": "Last reads",
+        "favorites": "Favorites",
+        "settings": "Settings",
+        "about": "About"
+    },
+    "navbar": {
+        "add_books": "Add books",
+        "add_folder": "Add folder"
+    }
+}

@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Folder {
+  @@map("folder")
+
+  id Int @id @default(autoincrement())
+  path String @unique
+}
+
+model Book {
+  @@map("book")
+
+  id          Int       @id @default(autoincrement())
+  path        String    @unique
+  format      String
+
+  title       String
+  cover       String?
+  author      String?
+  language    String?
+  identifier  String?
+  publisher   String?
+  subject     String?
+  description String?
+  date        DateTime?
+  rights      String?
+  coverage    String?
+  source      String?
+
+  labels      BookLabel[]
+}
+
+model BookLabel {
+  @@map("book_label")
+
+  id      Int  @id @default(autoincrement())
+  bookId  Int  @map("book_id")
+  labelId String  @map("label_id")
+
+  book    Book @relation(fields: [bookId], references: [id])
+  label   Label @relation(fields: [labelId], references: [id])
+}
+
+model Label {
+  @@map("label")
+
+  id   String    @id
+  name String
+
+  books BookLabel[]
+}

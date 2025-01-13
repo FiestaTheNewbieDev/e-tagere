@@ -1,3 +1,10 @@
 main.library {
+	position: relative;
 	padding: var(--spacing-large);
+
+	& > div.library__cards-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+		gap: var(--spacing-medium);
+	}
 }

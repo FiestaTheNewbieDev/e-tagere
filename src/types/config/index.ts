@@ -1,4 +1,4 @@
-import { LocaleCode } from "@mytypes/locale";
+import { LocaleCode } from '@myTypes/locale';
 
 export type AppConfig = {
 	theme: 'light' | 'dark';

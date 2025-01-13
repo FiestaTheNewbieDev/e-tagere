@@ -1,0 +1,13 @@
+{
+	"sidebar": {
+		"all-books": "Tous mes livres",
+		"last-reads": "Lus récemment",
+		"favorites": "Favoris",
+		"settings": "Préférences",
+		"about": "À propos"
+	},
+	"navbar": {
+		"add-books": "Ajouter des livres",
+		"add-folder": "Ajouter un dossier"
+	}
+}

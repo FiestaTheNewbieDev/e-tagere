@@ -1,4 +1,4 @@
-import { AppConfig } from '@mytypes/config';
+import { AppConfig } from '@myTypes/config';
 import { app } from 'electron';
 import fs from 'fs';
 

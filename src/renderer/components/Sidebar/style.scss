@@ -21,7 +21,7 @@ aside.sidebar__container {
 		flex-direction: column;
 		// gap: var(--spacing-small);
 		padding-bottom: var(--spacing-small);
-		background-color: var(--color-white);
+		background-color: var(--color-secondary-background);
 		// border-right: var(--border-default);
 		box-shadow: var(--shadow-medium);
 		transition: width var(--transition-duration) ease-in-out;
@@ -88,7 +88,7 @@ aside.sidebar__container {
 
 				& > div.separator {
 					height: 1px;
-					background-color: var(--color-neutral-200);
+					background-color: var(--color-border);
 					margin: var(--spacing-xsmall);
 				}
 

@@ -18,16 +18,17 @@
 		"isolatedModules": true,
 		"incremental": true,
 		"paths": {
-			"@main/*": ["src/main/*"],
 			"@services/*": ["src/main/services/*"],
+			"@main/*": ["src/main/*"],
 			"@preload/*": ["src/preload/*"],
-			"@renderer/*": ["src/renderer/*"],
 			"@assets/*": ["src/renderer/assets/*"],
 			"@components/*": ["src/renderer/components/*"],
 			"@contexts/*": ["src/renderer/contexts/*"],
+			"@store/*": ["src/renderer/store/*"],
 			"@styles/*": ["src/renderer/styles/*"],
 			"@views/*": ["src/renderer/views/*"],
-			"@mytypes/*": ["src/types/*"],
+			"@renderer/*": ["src/renderer/*"],
+			"@myTypes/*": ["src/types/*"],
 			"@utils/*": ["src/utils/*"]
 		}
 	},

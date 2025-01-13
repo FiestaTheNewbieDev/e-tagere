@@ -1,0 +1,3 @@
+const ALLOWED_EBOOK_EXTENSIONS = ['epub'];
+
+export default ALLOWED_EBOOK_EXTENSIONS;
