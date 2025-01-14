@@ -1,24 +1,91 @@
 import BookCard from '@components/BookCard';
+import ContextMenu, {
+	ContextMenuOptions,
+	ContextMenuPosition,
+} from '@components/ContextMenu';
+import { useLayout } from '@contexts/LayoutContext';
+import { Book } from '@prisma/client';
 import LibraryActions from '@store/library/actions';
 import useLibrary from '@store/library/selector';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 
-export default function Library() {
-	const library = useLibrary();
+export default function Library({ tab = 'ALL' }: { tab?: string }) {
+	const library = useLibrary(tab);
 	const books = library.data.books;
+	const layout = useLayout();
+	const navigate = useNavigate();
+
+	const [contextMenu, setContextMenu] = useState<ContextMenuPosition | null>(
+		null,
+	);
+	const [contextMenuOptions, setContextMenuOptions] =
+		useState<ContextMenuOptions>([]);
 
 	useEffect(() => {
-		LibraryActions.fetchLibrary().catch(console.warn);
+		LibraryActions.fetch(tab).catch(console.error);
 	}, []);
+
+	function handleContextMenu(
+		event: React.MouseEvent<HTMLDivElement>,
+		book: Book,
+	) {
+		event.preventDefault();
+		setContextMenuOptions([
+			{
+				label: 'Open',
+				action: () => navigate('/reader', { state: { book } }),
+			},
+			{
+				label: 'Edit',
+				action: () => alert(`Edit ${book.title}`),
+			},
+			{
+				label: 'Select',
+				action: () => alert(`Select ${book.title}`),
+			},
+			{
+				label: 'Open in Finder',
+				action: () => window.electronAPI.dialog.openInFinder(book.path),
+			},
+			{
+				separator: true,
+			},
+			{
+				label: 'Delete',
+				action: () => alert(`Delete ${book.title}`),
+			},
+		]);
+		setContextMenu({ x: event.clientX, y: event.clientY });
+	}
 
 	return (
 		<main className="library">
-			<div className="library__cards-container">
-				{books.map((book) => (
-					<BookCard key={book.id} book={book} />
-				))}
-			</div>
+			{layout.library.display === 'grid' && (
+				<div className="library__cards-container__grid">
+					{books.map((book) => (
+						<BookCard
+							key={book.id}
+							book={book}
+							onContextMenu={(event) =>
+								handleContextMenu(event, book)
+							}
+						/>
+					))}
+				</div>
+			)}
+
+			{layout.library.display === 'list' && (
+				<div className="library__cards-container__list"></div>
+			)}
+
+			<ContextMenu
+				visible={!!contextMenu}
+				options={contextMenuOptions}
+				position={contextMenu || { x: -999, y: -999 }}
+				onClose={() => setContextMenu(null)}
+			/>
 		</main>
 	);
 }

@@ -15,7 +15,7 @@ export default function App() {
 						path="/"
 						element={
 							<DefaultLayout>
-								<Library />
+								<Library tab="ALL" />
 							</DefaultLayout>
 						}
 					/>
@@ -23,7 +23,7 @@ export default function App() {
 						path="/last-reads"
 						element={
 							<DefaultLayout>
-								<Library />
+								<Library tab="LAST_READS" />
 							</DefaultLayout>
 						}
 					/>
@@ -31,7 +31,7 @@ export default function App() {
 						path="/favorites"
 						element={
 							<DefaultLayout>
-								<Library />
+								<Library tab="FAVORITES" />
 							</DefaultLayout>
 						}
 					/>

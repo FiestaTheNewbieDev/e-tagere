@@ -1,19 +1,30 @@
-import { Book } from "@prisma/client";
+import { Book } from '@prisma/client';
 
-type Status = "NOT_FETCHED" | "FETCHING" | "FETCHED" | "ERRORED";
+type Status = 'NOT_FETCHED' | 'FETCHING' | 'FETCHED' | 'ERRORED';
 
 export type LibraryState = {
-    status: Status;
-    data: {
-        books: Book[];
-    };
+	[key: string]: LibraryTabState;
+};
+
+export type LibraryTabState = {
+	status: Status;
+	data: {
+		books: Book[];
+	};
+};
+
+const tabInitialState: LibraryTabState = {
+	status: 'NOT_FETCHED',
+	data: {
+		books: [],
+	},
 };
 
 const initialState: LibraryState = {
-    status: "NOT_FETCHED",
-    data: {
-        books: [],
-    },
+	ALL: tabInitialState,
+	LAST_READS: tabInitialState,
+	FAVORITES: tabInitialState,
 };
 
 export default initialState;
+export { tabInitialState };

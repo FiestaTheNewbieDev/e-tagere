@@ -26,6 +26,17 @@ a.link-button {
 			var(--color-brand-green);
 	}
 
+	&[data-variant='secondary-outline'] {
+		color: var(--color-black);
+		background-color: transparent;
+		border: var(--border-default);
+	}
+
+	&[data-variant='transparent'] {
+		color: var(--color-black);
+		background-color: transparent;
+	}
+
 	svg {
 		width: var(--font-size-normal);
 		height: var(--font-size-normal);

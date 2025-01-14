@@ -1,11 +1,24 @@
 nav.navbar {
 	display: flex;
-	align-items: center;
 	width: 100%;
-	height: 4rem;
+	min-height: 4rem;
 	background-color: var(--color-secondary-background);
 	// border-bottom: var(--border-default);
 	box-shadow: var(--shadow-medium);
 	padding-inline: var(--spacing-small);
-	gap: var(--spacing-xsmall);
+	justify-content: space-between;
+
+	& > div.left,
+	& > div.right {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xsmall);
+	}
+
+	& > div.right {
+		& > div.display-modes {
+			display: flex;
+			gap: var(--spacing-xsmall);
+		}
+	}
 }

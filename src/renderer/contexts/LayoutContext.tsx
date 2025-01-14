@@ -12,6 +12,10 @@ interface ILayoutContext {
 		toggle: () => void;
 		setIsOpen: (isOpen: boolean) => void;
 	};
+	library: {
+		display: "grid" | "list";
+		setDisplay: (display: "grid" | "list") => void;
+	}
 }
 
 const LayoutContext = createContext<ILayoutContext>({} as ILayoutContext);
@@ -21,12 +25,19 @@ function LayoutProvider({ children }: { children: ReactNode }) {
 	const toggle = useCallback(() => _setIsOpen(!isOpen), []);
 	const setIsOpen = useCallback((isOpen: boolean) => _setIsOpen(isOpen), []);
 
+	const [display, _setDisplay] = useState<"grid" | "list">("grid");
+	const setDisplay = useCallback((display: "grid" | "list") => _setDisplay(display), []);
+
 	const value: ILayoutContext = {
 		sidebar: {
 			isOpen,
 			toggle,
 			setIsOpen,
 		},
+		library: {
+			display,
+			setDisplay,
+		}
 	};
 
 	return (

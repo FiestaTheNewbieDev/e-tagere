@@ -19,4 +19,11 @@ export function handleDialogRequests() {
 		}
 		return dialogService.importFolder(browserWindow);
 	});
+
+	ipcMain.handle(
+		'dialog:open-in-finder',
+		(event: IpcMainInvokeEvent, path: string) => {
+			return dialogService.openInFinder(path);
+		},
+	);
 }

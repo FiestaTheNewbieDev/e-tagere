@@ -9,7 +9,7 @@ import './style.scss';
 const Sidebar: React.FC = () => {
 	const navigate = useNavigate();
 	const { isOpen, setIsOpen } = useSidebar();
-	const books = useLibrary().data.books;
+	const books = useLibrary('ALL').data.books;
 
 	function handleMouseEnter() {
 		setIsOpen(true);

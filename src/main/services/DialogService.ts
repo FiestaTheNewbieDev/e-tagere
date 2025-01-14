@@ -1,6 +1,6 @@
 import LibraryService from '@main/services/LibraryService';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
-import { BrowserWindow, dialog } from 'electron';
+import { BrowserWindow, dialog, shell } from 'electron';
 
 export default class DialogService {
 	private static instance: DialogService;
@@ -65,5 +65,9 @@ export default class DialogService {
 		} catch (error) {
 			return Promise.reject(error);
 		}
+	}
+
+	async openInFinder(path: string) {
+		shell.showItemInFolder(path);
 	}
 }

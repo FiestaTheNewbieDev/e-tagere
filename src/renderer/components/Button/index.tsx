@@ -4,7 +4,7 @@ import './style.scss';
 
 type ExtraProps = {
 	full?: boolean;
-	variant?: 'primary';
+	variant?: 'primary' | 'secondary-outline' | 'transparent';
 };
 
 type Button = ButtonHTMLAttributes<HTMLElement> & ExtraProps;
