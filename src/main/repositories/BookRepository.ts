@@ -33,4 +33,19 @@ export default class BookRepository {
 	async findAll(): Promise<Book[]> {
 		return this.prismaService.book.findMany();
 	}
+
+	async findByLabel(label: string): Promise<Book[]> {
+		return this.prismaService.book.findMany({
+			where: {
+				labels: {
+					some: {
+						labelId: label,
+					},
+				},
+			},
+			include: {
+				labels: true,
+			},
+		});
+	}
 }

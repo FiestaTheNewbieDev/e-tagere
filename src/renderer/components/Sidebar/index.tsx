@@ -1,5 +1,4 @@
 import { useSidebar } from '@contexts/LayoutContext';
-import useLibrary from '@store/library/selector';
 import cn from '@utils/cn';
 import { BookOpen, History, Info, Settings, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -9,7 +8,6 @@ import './style.scss';
 const Sidebar: React.FC = () => {
 	const navigate = useNavigate();
 	const { isOpen, setIsOpen } = useSidebar();
-	const books = useLibrary('ALL').data.books;
 
 	function handleMouseEnter() {
 		setIsOpen(true);
@@ -44,7 +42,7 @@ const Sidebar: React.FC = () => {
 							urls={['/']}
 						>
 							<BookOpen />
-							<span>All books ({books.length})</span>
+							<span>All books</span>
 						</NavItem>
 						<NavItem
 							expanded={isOpen}

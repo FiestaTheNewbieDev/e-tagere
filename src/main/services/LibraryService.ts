@@ -23,8 +23,13 @@ export default class LibraryService {
 		return LibraryService.instance;
 	}
 
-	async getBooks(): Promise<Book[]> {
+	async getAllBooks(): Promise<Book[]> {
 		const books = await this.bookRepository.findAll();
+		return books;
+	}
+
+	async getFavoriteBooks(): Promise<Book[]> {
+		const books = await this.bookRepository.findByLabel('FAVORITES');
 		return books;
 	}
 
@@ -33,7 +38,8 @@ export default class LibraryService {
 	): Promise<{ folder: Folder | null; books: Book[] }> {
 		const files = this.getFilesFromDirectory(directoryPath);
 
-		if (await this.folderRepository.findByPath(directoryPath)) return { folder: null, books: [] };
+		if (await this.folderRepository.findByPath(directoryPath))
+			return { folder: null, books: [] };
 
 		const [folder, books] = await Promise.all([
 			this.folderRepository.create({ path: directoryPath }),

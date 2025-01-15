@@ -3,6 +3,7 @@ import ContextMenu, {
 	ContextMenuOptions,
 	ContextMenuPosition,
 } from '@components/ContextMenu';
+import Spinner from '@components/Spinner';
 import { useLayout } from '@contexts/LayoutContext';
 import { Book } from '@prisma/client';
 import LibraryActions from '@store/library/actions';
@@ -10,6 +11,8 @@ import useLibrary from '@store/library/selector';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
+
+const LOADING_STATUS = ['NOT_FETCHED', 'FETCHING'];
 
 export default function Library({ tab = 'ALL' }: { tab?: string }) {
 	const library = useLibrary(tab);
@@ -25,7 +28,7 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 
 	useEffect(() => {
 		LibraryActions.fetch(tab).catch(console.error);
-	}, []);
+	}, [tab]);
 
 	function handleContextMenu(
 		event: React.MouseEvent<HTMLDivElement>,
@@ -38,16 +41,20 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 				action: () => navigate('/reader', { state: { book } }),
 			},
 			{
+				label: 'Open in Finder',
+				action: () => window.electronAPI.dialog.openInFinder(book.path),
+			},
+			{
+				label: 'Add to Favorites',
+				action: () => alert(`Add ${book.title} to favorites`),
+			},
+			{
 				label: 'Edit',
 				action: () => alert(`Edit ${book.title}`),
 			},
 			{
 				label: 'Select',
 				action: () => alert(`Select ${book.title}`),
-			},
-			{
-				label: 'Open in Finder',
-				action: () => window.electronAPI.dialog.openInFinder(book.path),
 			},
 			{
 				separator: true,
@@ -86,6 +93,13 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 				position={contextMenu || { x: -999, y: -999 }}
 				onClose={() => setContextMenu(null)}
 			/>
+
+			<div
+				className="library__loading-container"
+				data-visible={LOADING_STATUS.includes(library.status)}
+			>
+				<Spinner />
+			</div>
 		</main>
 	);
 }

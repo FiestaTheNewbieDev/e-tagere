@@ -2,14 +2,19 @@ import { Book } from '@prisma/client';
 import { ipcRenderer } from 'electron';
 
 export type LibraryAPI = {
-	getBooks: typeof getBooks;
+	getAll: typeof getAll;
+	getFavorites: typeof getFavorites;
 };
 
-const getBooks = async (): Promise<Book[]> =>
-	ipcRenderer.invoke('library:get-books');
+const getAll = async (): Promise<Book[]> =>
+	ipcRenderer.invoke('library:get-all-books');
+
+const getFavorites = async (): Promise<Book[]> =>
+	ipcRenderer.invoke('library:get-favorite-books');
 
 const libraryAPI: LibraryAPI = {
-	getBooks,
+	getAll,
+	getFavorites,
 };
 
 export default libraryAPI;

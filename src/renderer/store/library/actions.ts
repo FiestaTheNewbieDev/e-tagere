@@ -6,6 +6,10 @@ export default class LibraryActions {
 		return LibraryActions.fetch('ALL');
 	}
 
+	static fetchFavorites(): Promise<void> {
+		return LibraryActions.fetch('FAVORITES');
+	}
+
 	static async fetch(tab: string): Promise<void> {
 		const state = store.getState().library[tab];
 
@@ -15,7 +19,17 @@ export default class LibraryActions {
 		store.dispatch(librarySliceActions.startFetching({ tab }));
 
 		try {
-			const response = await window.electronAPI.library.getBooks();
+			let response;
+			switch (tab) {
+				case 'ALL':
+					response = await window.electronAPI.library.getAll();
+					break;
+				case 'FAVORITES':
+					response = await window.electronAPI.library.getFavorites();
+					break;
+				default:
+					throw new Error('Invalid tab');
+			}
 
 			store.dispatch(
 				librarySliceActions.fetchSuccess({ tab, books: response }),

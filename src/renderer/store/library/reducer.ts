@@ -32,10 +32,11 @@ export const librarySlice = createSlice({
 			action: PayloadAction<{ tab: string; books: Book[] }>,
 		) => {
 			const tab = action.payload.tab;
+			const books = action.payload.books;
 
 			if (!state[tab]) state[tab] = tabInitialState;
 			state[tab].status = 'FETCHED';
-			state[tab].data.books = action.payload.books;
+			state[tab].data.books = books;
 		},
 	},
 });
