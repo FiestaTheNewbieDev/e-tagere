@@ -1,5 +1,6 @@
-import DefaultLayout from '@components/layouts/DefaultLayout';
 import StoreProvider from '@renderer/components/StoreProvider';
+import DefaultLayout from '@renderer/layouts/DefaultLayout';
+import ReaderLayout from '@renderer/layouts/ReaderLayout';
 import About from '@views/About';
 import Library from '@views/Library';
 import Reader from '@views/Reader';
@@ -35,7 +36,14 @@ export default function App() {
 							</DefaultLayout>
 						}
 					/>
-					<Route path="/reader" element={<Reader />} />
+					<Route
+						path="/reader"
+						element={
+							<ReaderLayout>
+								<Reader />
+							</ReaderLayout>
+						}
+					/>
 					<Route
 						path="/settings"
 						element={

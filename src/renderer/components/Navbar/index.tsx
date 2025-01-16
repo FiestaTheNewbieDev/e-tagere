@@ -1,6 +1,6 @@
 import { Button } from '@components/Button';
 import { useLayout } from '@contexts/LayoutContext';
-import { Filter, Folder, Grid2X2, List, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import './style.scss';
 
 export default function Navbar() {
@@ -18,13 +18,13 @@ export default function Navbar() {
 					<Plus />
 					<span>Add books</span>
 				</Button>
-				<Button onClick={handleAddFolder} variant="primary">
+				{/* <Button onClick={handleAddFolder} variant="primary">
 					<Folder />
 					<span>Add folder</span>
-				</Button>
+				</Button> */}
 			</div>
 			<div className="right">
-				<Button variant="secondary-outline">
+				{/* <Button variant="secondary-outline">
 					<Filter />
 				</Button>
 				<div className="display-modes">
@@ -48,7 +48,7 @@ export default function Navbar() {
 					>
 						<List />
 					</Button>
-				</div>
+				</div> */}
 			</div>
 		</nav>
 	);

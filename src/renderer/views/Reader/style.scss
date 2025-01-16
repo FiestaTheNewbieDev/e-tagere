@@ -1,10 +1,12 @@
 main.reader {
-	padding: var(--spacing-large);
+	padding-top: var(--spacing-large);
+	padding-inline: var(--spacing-large);
 
 	div.reader__content {
 		background-color: var(--color-white);
 		margin-inline: auto;
-		border-radius: var(--rounded-xlarge);
+		border-top-left-radius: var(--rounded-xlarge);
+		border-top-right-radius: var(--rounded-xlarge);
 		max-width: 800px;
 		width: 100%;
 		min-height: 100%;

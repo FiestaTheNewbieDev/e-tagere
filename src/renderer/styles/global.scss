@@ -31,6 +31,10 @@ body {
 			grid-area: navbar;
 		}
 
+		& > nav.reader__navbar {
+			grid-area: navbar;
+		}
+
 		& > main {
 			grid-area: main;
 			width: 100%;

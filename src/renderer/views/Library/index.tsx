@@ -44,25 +44,25 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 				label: 'Open in Finder',
 				action: () => window.electronAPI.dialog.openInFinder(book.path),
 			},
-			{
-				label: 'Add to Favorites',
-				action: () => alert(`Add ${book.title} to favorites`),
-			},
-			{
-				label: 'Edit',
-				action: () => alert(`Edit ${book.title}`),
-			},
-			{
-				label: 'Select',
-				action: () => alert(`Select ${book.title}`),
-			},
-			{
-				separator: true,
-			},
-			{
-				label: 'Delete',
-				action: () => alert(`Delete ${book.title}`),
-			},
+			// {
+			// 	label: 'Add to Favorites',
+			// 	action: () => alert(`Add ${book.title} to favorites`),
+			// },
+			// {
+			// 	label: 'Edit',
+			// 	action: () => alert(`Edit ${book.title}`),
+			// },
+			// {
+			// 	label: 'Select',
+			// 	action: () => alert(`Select ${book.title}`),
+			// },
+			// {
+			// 	separator: true,
+			// },
+			// {
+			// 	label: 'Delete',
+			// 	action: () => alert(`Delete ${book.title}`),
+			// },
 		]);
 		setContextMenu({ x: event.clientX, y: event.clientY });
 	}
