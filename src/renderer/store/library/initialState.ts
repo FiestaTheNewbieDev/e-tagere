@@ -1,23 +1,19 @@
 import { Book } from '@prisma/client';
-
-type Status = 'NOT_FETCHED' | 'FETCHING' | 'FETCHED' | 'ERRORED';
+import genericInitialState, {
+	GenericState,
+} from '@store/generics/initialState';
 
 export type LibraryState = {
 	[key: string]: LibraryTabState;
 };
 
-export type LibraryTabState = {
-	status: Status;
-	data: {
-		books: Book[];
-	};
-};
+export type LibraryTabState = GenericState<{
+	books: Book[];
+}>;
 
-const tabInitialState: LibraryTabState = {
-	status: 'NOT_FETCHED',
-	data: {
-		books: [],
-	},
+const tabInitialState: GenericState<{ books: Book[] }> = {
+	...genericInitialState,
+	data: { books: [] },
 };
 
 const initialState: LibraryState = {

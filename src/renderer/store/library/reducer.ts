@@ -1,5 +1,6 @@
 import { Book } from '@prisma/client';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { FetchStatus } from '@store/generics/initialState';
 import initialState, {
 	LibraryState,
 	tabInitialState,
@@ -16,7 +17,7 @@ export const librarySlice = createSlice({
 			const tab = action.payload.tab;
 
 			if (!state[tab]) state[tab] = tabInitialState;
-			state[tab].status = 'FETCHING';
+			state[tab].status = FetchStatus.FETCHING;
 		},
 		fetchError: (
 			state: LibraryState,
@@ -25,7 +26,7 @@ export const librarySlice = createSlice({
 			const tab = action.payload.tab;
 
 			if (!state[tab]) state[tab] = tabInitialState;
-			state[tab].status = 'ERRORED';
+			state[tab].status = FetchStatus.ERRORED;
 		},
 		fetchSuccess: (
 			state: LibraryState,
@@ -35,7 +36,7 @@ export const librarySlice = createSlice({
 			const books = action.payload.books;
 
 			if (!state[tab]) state[tab] = tabInitialState;
-			state[tab].status = 'FETCHED';
+			state[tab].status = FetchStatus.FETCHED;
 			state[tab].data.books = books;
 		},
 	},
