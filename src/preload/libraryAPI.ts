@@ -1,4 +1,4 @@
-import { Book } from '@prisma/client';
+import { Book } from '@myTypes/ebook';
 import { ipcRenderer } from 'electron';
 
 export type LibraryAPI = {

@@ -1,5 +1,5 @@
 import { useReader } from '@contexts/ReaderContext';
-import { Book } from '@prisma/client';
+import { Book } from '@myTypes/ebook';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './style.scss';

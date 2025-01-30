@@ -5,7 +5,7 @@ import ContextMenu, {
 } from '@components/ContextMenu';
 import Spinner from '@components/Spinner';
 import { useLayout } from '@contexts/LayoutContext';
-import { Book } from '@prisma/client';
+import { Book } from '@myTypes/ebook';
 import LibraryActions from '@store/library/actions';
 import useLibrary from '@store/library/selector';
 import React, { useEffect, useState } from 'react';

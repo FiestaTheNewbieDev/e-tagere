@@ -4,3 +4,5 @@ export type TOCElement = {
 };
 
 export type TOC = TOCElement[];
+
+export type { Book } from '@prisma/client';

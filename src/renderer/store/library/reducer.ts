@@ -1,4 +1,4 @@
-import { Book } from '@prisma/client';
+import { Book } from '@myTypes/ebook';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FetchStatus } from '@store/generics/initialState';
 import initialState, {

@@ -1,5 +1,4 @@
-import { TOC } from '@myTypes/ebook';
-import { Book } from '@prisma/client';
+import { Book, TOC } from '@myTypes/ebook';
 
 export default abstract class AbstractEbookService {
 	protected static instance: AbstractEbookService;

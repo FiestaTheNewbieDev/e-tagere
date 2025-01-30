@@ -1,5 +1,4 @@
-import { TOC } from '@myTypes/ebook';
-import { Book } from '@prisma/client';
+import { Book, TOC } from '@myTypes/ebook';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EPub from 'epub';
 
