@@ -1,7 +1,8 @@
 import BookRepository from '@main/repositories/BookRepository';
 import FolderRepository from '@main/repositories/FolderRepository';
-import EpubService from '@main/services/EpubService';
+import EpubService from '@main/services/ebook/EpubService';
 import { Book, Folder } from '@prisma/client';
+import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import fs from 'fs';
 import path from 'path';
@@ -80,7 +81,7 @@ export default class LibraryService {
 	async extractMetadata(filePath: string): Promise<Omit<Book, 'id'>> {
 		const format = path.extname(filePath).slice(1);
 
-		let ebookService: EpubService;
+		let ebookService: AbstractEbookService;
 		let metadata = {
 			path: filePath,
 			format,

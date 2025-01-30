@@ -1,28 +1,22 @@
+import { TOC } from '@myTypes/ebook';
 import { Book } from '@prisma/client';
+import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EPub from 'epub';
 
 type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
 
 const IMAGE_REGEX = /src="([^"]+)"/g;
 
-export default class EpubService {
-	private static instance: EpubService;
-	private filePath: string;
+export default class EpubService extends AbstractEbookService {
+	protected static instance: EpubService;
 	private epub: EPub | null = null;
 
 	constructor(filePath: string) {
-		this.filePath = filePath;
+		super(filePath);
 	}
 
 	public static getInstance(filePath: string): EpubService {
-		if (
-			!EpubService.instance ||
-			EpubService.instance.filePath !== filePath
-		) {
-			this.instance.close();
-			EpubService.instance = new EpubService(filePath);
-		}
-		return EpubService.instance;
+		return super.getInstance.call(this, filePath) as EpubService;
 	}
 
 	private async initialize(): Promise<void> {
@@ -72,7 +66,7 @@ export default class EpubService {
 		};
 	}
 
-	async extractTOC(): Promise<{ title: string; href: string }[]> {
+	async extractTOC(): Promise<TOC> {
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
