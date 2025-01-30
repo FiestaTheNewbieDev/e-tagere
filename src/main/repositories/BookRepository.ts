@@ -22,6 +22,14 @@ export default class BookRepository {
 		});
 	}
 
+	async findById(id: number): Promise<Book | null> {
+		return this.prismaService.book.findFirst({
+			where: {
+				id,
+			},
+		});
+	}
+
 	async findByPath(path: string): Promise<Book | null> {
 		return this.prismaService.book.findFirst({
 			where: {
@@ -47,5 +55,35 @@ export default class BookRepository {
 				labels: true,
 			},
 		});
+	}
+
+	async addLabel(bookId: number, labelId: string): Promise<Book> {
+		await this.prismaService.bookLabel.create({
+			data: {
+				bookId,
+				labelId,
+			},
+		});
+
+		const book = await this.findById(bookId);
+
+		if (!book) return Promise.reject('Book not found');
+
+		return book;
+	}
+
+	async removeLabel(bookId: number, labelId: string): Promise<Book> {
+		await this.prismaService.bookLabel.deleteMany({
+			where: {
+				bookId,
+				labelId,
+			},
+		});
+
+		const book = await this.findById(bookId);
+
+		if (!book) return Promise.reject('Book not found');
+
+		return book;
 	}
 }
