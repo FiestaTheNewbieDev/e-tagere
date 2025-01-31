@@ -1,9 +1,9 @@
 import { AppConfig } from '@myTypes/config';
+import AbstractSingleton from '@utils/AbstractSingleton';
 import { app } from 'electron';
 import fs from 'fs';
 
-export default class ConfigService {
-	private static instance: ConfigService;
+export default class ConfigService extends AbstractSingleton {
 	private configPath: string;
 	private config: AppConfig;
 
@@ -12,7 +12,9 @@ export default class ConfigService {
 		locale: 'en-US',
 	};
 
-	private constructor() {
+	constructor() {
+		super();
+
 		const userDataPath = app.getPath('userData');
 		this.configPath = `${userDataPath}/config.json`;
 
@@ -20,10 +22,7 @@ export default class ConfigService {
 	}
 
 	public static getInstance(): ConfigService {
-		if (!ConfigService.instance) {
-			ConfigService.instance = new ConfigService();
-		}
-		return ConfigService.instance;
+		return super.getInstance.call(this) as ConfigService;
 	}
 
 	private loadConfig(): AppConfig {

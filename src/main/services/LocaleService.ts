@@ -3,13 +3,14 @@ import I18nService from '@main/services/I18nService';
 import { Locale, LocaleCode, Locales } from '@myTypes/locale';
 import LOCALES from '@utils/locales';
 
-export default class LocaleService {
-	private static instance: LocaleService;
+export default class LocaleService extends AbstractSingleton {
 	private configService: ConfigService;
 	private i18nService: I18nService;
 	private locale: Locale<LocaleCode> = LOCALES['en-US'];
 
 	private constructor() {
+		super();
+
 		this.configService = ConfigService.getInstance();
 		this.i18nService = I18nService.getInstance();
 
@@ -17,10 +18,7 @@ export default class LocaleService {
 	}
 
 	public static getInstance(): LocaleService {
-		if (!LocaleService.instance) {
-			LocaleService.instance = new LocaleService();
-		}
-		return LocaleService.instance;
+		return super.getInstance.call(this) as LocaleService;
 	}
 
 	public getLocale(): Locale<LocaleCode> {

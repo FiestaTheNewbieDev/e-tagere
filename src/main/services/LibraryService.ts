@@ -3,25 +3,24 @@ import FolderRepository from '@main/repositories/FolderRepository';
 import EpubService from '@main/services/ebook/EpubService';
 import { Book, Folder } from '@prisma/client';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
+import AbstractSingleton from '@utils/AbstractSingleton';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import fs from 'fs';
 import path from 'path';
 
-export default class LibraryService {
-	private static instance: LibraryService;
+export default class LibraryService extends AbstractSingleton {
 	private folderRepository: FolderRepository;
 	private bookRepository: BookRepository;
 
 	constructor() {
+		super();
+
 		this.folderRepository = FolderRepository.getInstance();
 		this.bookRepository = BookRepository.getInstance();
 	}
 
 	public static getInstance(): LibraryService {
-		if (!LibraryService.instance) {
-			LibraryService.instance = new LibraryService();
-		}
-		return LibraryService.instance;
+		return super.getInstance.call(this) as LibraryService;
 	}
 
 	async getAllBooks(): Promise<Book[]> {

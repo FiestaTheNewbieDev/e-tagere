@@ -1,20 +1,19 @@
 import LibraryService from '@main/services/LibraryService';
+import AbstractSingleton from '@utils/AbstractSingleton';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import { BrowserWindow, dialog, shell } from 'electron';
 
-export default class DialogService {
-	private static instance: DialogService;
+export default class DialogService extends AbstractSingleton {
 	private libraryService: LibraryService;
 
 	constructor() {
+		super();
+
 		this.libraryService = LibraryService.getInstance();
 	}
 
 	public static getInstance(): DialogService {
-		if (!DialogService.instance) {
-			DialogService.instance = new DialogService();
-		}
-		return DialogService.instance;
+		return super.getInstance.call(this) as DialogService;
 	}
 
 	async importBooks(browserWindow: BrowserWindow) {

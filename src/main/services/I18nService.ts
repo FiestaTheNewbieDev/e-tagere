@@ -1,4 +1,5 @@
 import { Locale, LocaleCode } from '@myTypes/locale';
+import AbstractSingleton from '@utils/AbstractSingleton';
 
 const DEFAULT_LOCALE_CODE: LocaleCode = 'en-US';
 
@@ -6,16 +7,12 @@ type Translations = {
 	[key: string]: string | Translations;
 };
 
-export default class I18nService {
-	private static instance: I18nService;
+export default class I18nService extends AbstractSingleton {
 	private localeCode: LocaleCode = 'en-US';
 	private parsedTranslations: Translations = {};
 
 	public static getInstance(): I18nService {
-		if (!I18nService.instance) {
-			I18nService.instance = new I18nService();
-		}
-		return I18nService.instance;
+		return super.getInstance.call(this) as I18nService;
 	}
 
 	private async parseTranslations(): Promise<void> {
