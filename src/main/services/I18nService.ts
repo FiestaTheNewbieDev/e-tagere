@@ -11,6 +11,10 @@ export default class I18nService extends AbstractSingleton {
 	private localeCode: LocaleCode = 'en-US';
 	private parsedTranslations: Translations = {};
 
+	constructor() {
+		super();
+	}
+
 	public static getInstance(): I18nService {
 		return I18nService._getInstance<I18nService>();
 	}
