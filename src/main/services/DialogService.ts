@@ -1,6 +1,6 @@
 import LibraryService from '@services/LibraryService';
 import AbstractSingleton from '@utils/AbstractSingleton';
-import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
+import ALLOWED_EBOOK_EXTENSIONS from '@utils/constants/allowedEbookExtensions';
 import { BrowserWindow, dialog, shell } from 'electron';
 
 export default class DialogService extends AbstractSingleton {

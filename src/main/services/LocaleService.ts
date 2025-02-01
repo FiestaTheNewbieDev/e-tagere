@@ -2,7 +2,7 @@ import { Locale, LocaleCode, Locales } from '@myTypes/locale';
 import ConfigService from '@services/ConfigService';
 import I18nService from '@services/I18nService';
 import AbstractSingleton from '@utils/AbstractSingleton';
-import LOCALES from '@utils/locales';
+import LOCALES from '@utils/constants/locales';
 
 export default class LocaleService extends AbstractSingleton {
 	private configService: ConfigService;

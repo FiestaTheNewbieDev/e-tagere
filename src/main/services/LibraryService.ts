@@ -5,7 +5,7 @@ import FolderRepository from '@repositories/FolderRepository';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EpubService from '@services/ebook/EpubService';
 import AbstractSingleton from '@utils/AbstractSingleton';
-import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
+import ALLOWED_EBOOK_EXTENSIONS from '@utils/constants/allowedEbookExtensions';
 import fs from 'fs';
 import path from 'path';
 
