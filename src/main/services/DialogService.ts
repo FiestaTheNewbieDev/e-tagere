@@ -1,4 +1,4 @@
-import LibraryService from '@main/services/LibraryService';
+import LibraryService from '@services/LibraryService';
 import AbstractSingleton from '@utils/AbstractSingleton';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import { BrowserWindow, dialog, shell } from 'electron';
@@ -13,7 +13,7 @@ export default class DialogService extends AbstractSingleton {
 	}
 
 	public static getInstance(): DialogService {
-		return super.getInstance.call(this) as DialogService;
+		return super._getInstance<DialogService>();
 	}
 
 	async importBooks(browserWindow: BrowserWindow) {
@@ -34,7 +34,7 @@ export default class DialogService extends AbstractSingleton {
 			);
 
 			if (canceled) {
-				return Promise.reject(new Error('No books selected'));
+				return;
 			}
 
 			return this.libraryService.indexFiles(filePaths);
@@ -55,7 +55,7 @@ export default class DialogService extends AbstractSingleton {
 			);
 
 			if (canceled || filePaths.length === 0) {
-				return Promise.reject(new Error('No folder selected'));
+				return;
 			}
 
 			const dir = filePaths[0];

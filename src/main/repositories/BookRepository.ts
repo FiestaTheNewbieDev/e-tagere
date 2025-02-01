@@ -1,19 +1,17 @@
-import PrismaService from '@main/services/PrismaService';
 import { Book } from '@prisma/client';
+import PrismaService from '@services/PrismaService';
+import AbstractSingleton from '@utils/AbstractSingleton';
 
-export default class BookRepository {
-	private static instance: BookRepository;
+export default class BookRepository extends AbstractSingleton {
 	private prismaService: PrismaService;
 
 	private constructor() {
+		super();
 		this.prismaService = PrismaService.getInstance();
 	}
 
 	public static getInstance(): BookRepository {
-		if (!BookRepository.instance) {
-			BookRepository.instance = new BookRepository();
-		}
-		return BookRepository.instance;
+		return super._getInstance<BookRepository>();
 	}
 
 	async create(data: Omit<Book, 'id'>): Promise<Book> {

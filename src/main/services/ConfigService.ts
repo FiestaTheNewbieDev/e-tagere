@@ -22,7 +22,7 @@ export default class ConfigService extends AbstractSingleton {
 	}
 
 	public static getInstance(): ConfigService {
-		return super.getInstance.call(this) as ConfigService;
+		return super._getInstance<ConfigService>();
 	}
 
 	private loadConfig(): AppConfig {

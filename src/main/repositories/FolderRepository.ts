@@ -1,19 +1,17 @@
-import PrismaService from '@main/services/PrismaService';
 import { Folder } from '@prisma/client';
+import PrismaService from '@services/PrismaService';
+import AbstractSingleton from '@utils/AbstractSingleton';
 
-export default class FolderRepository {
-	private static instance: FolderRepository;
+export default class FolderRepository extends AbstractSingleton {
 	private prismaService: PrismaService;
 
 	private constructor() {
+		super();
 		this.prismaService = PrismaService.getInstance();
 	}
 
 	public static getInstance(): FolderRepository {
-		if (!FolderRepository.instance) {
-			FolderRepository.instance = new FolderRepository();
-		}
-		return FolderRepository.instance;
+		return super._getInstance<FolderRepository>();
 	}
 
 	async create(data: Omit<Folder, 'id'>): Promise<Folder> {

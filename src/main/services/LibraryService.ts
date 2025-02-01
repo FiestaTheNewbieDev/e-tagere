@@ -1,8 +1,9 @@
-import BookRepository from '@main/repositories/BookRepository';
-import FolderRepository from '@main/repositories/FolderRepository';
-import EpubService from '@main/services/ebook/EpubService';
-import { Book, Folder } from '@prisma/client';
+import { Book } from '@myTypes/ebook';
+import { Folder } from '@prisma/client';
+import BookRepository from '@repositories/BookRepository';
+import FolderRepository from '@repositories/FolderRepository';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
+import EpubService from '@services/ebook/EpubService';
 import AbstractSingleton from '@utils/AbstractSingleton';
 import ALLOWED_EBOOK_EXTENSIONS from '@utils/allowedEbookExtensions';
 import fs from 'fs';
@@ -20,7 +21,7 @@ export default class LibraryService extends AbstractSingleton {
 	}
 
 	public static getInstance(): LibraryService {
-		return super.getInstance.call(this) as LibraryService;
+		return super._getInstance<LibraryService>();
 	}
 
 	async getAllBooks(): Promise<Book[]> {

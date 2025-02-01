@@ -1,6 +1,7 @@
-import ConfigService from '@main/services/ConfigService';
-import I18nService from '@main/services/I18nService';
 import { Locale, LocaleCode, Locales } from '@myTypes/locale';
+import ConfigService from '@services/ConfigService';
+import I18nService from '@services/I18nService';
+import AbstractSingleton from '@utils/AbstractSingleton';
 import LOCALES from '@utils/locales';
 
 export default class LocaleService extends AbstractSingleton {
@@ -18,7 +19,7 @@ export default class LocaleService extends AbstractSingleton {
 	}
 
 	public static getInstance(): LocaleService {
-		return super.getInstance.call(this) as LocaleService;
+		return super._getInstance<LocaleService>();
 	}
 
 	public getLocale(): Locale<LocaleCode> {
