@@ -11,4 +11,8 @@
 ![ESLint](https://img.shields.io/badge/ESLint-grey?style=flat-square&logo=eslint)
 ![Prettier](https://img.shields.io/badge/Prettier-grey?style=flat-square&logo=prettier)
 
+![Screenshot](./docs/images/Screenshot_20250201_120530.png)
+
 **e-tagère** is a simple e-book reader, built using **Electron** and **React**.
+
+> **Note**: The image above is a preliminary version of the application and is still under development. The final design and features may differ significantly.
