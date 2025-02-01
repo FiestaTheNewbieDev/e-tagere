@@ -12,7 +12,7 @@ export default class I18nService extends AbstractSingleton {
 	private parsedTranslations: Translations = {};
 
 	public static getInstance(): I18nService {
-		return super._getInstance<I18nService>();
+		return I18nService._getInstance<I18nService>();
 	}
 
 	private async parseTranslations(): Promise<void> {

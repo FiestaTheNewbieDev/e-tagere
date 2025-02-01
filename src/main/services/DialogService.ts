@@ -13,7 +13,7 @@ export default class DialogService extends AbstractSingleton {
 	}
 
 	public static getInstance(): DialogService {
-		return super._getInstance<DialogService>();
+		return DialogService._getInstance<DialogService>();
 	}
 
 	async importBooks(browserWindow: BrowserWindow) {

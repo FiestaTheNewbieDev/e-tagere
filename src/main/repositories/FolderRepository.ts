@@ -5,13 +5,13 @@ import AbstractSingleton from '@utils/AbstractSingleton';
 export default class FolderRepository extends AbstractSingleton {
 	private prismaService: PrismaService;
 
-	private constructor() {
+	constructor() {
 		super();
 		this.prismaService = PrismaService.getInstance();
 	}
 
 	public static getInstance(): FolderRepository {
-		return super._getInstance<FolderRepository>();
+		return FolderRepository._getInstance<FolderRepository>();
 	}
 
 	async create(data: Omit<Folder, 'id'>): Promise<Folder> {

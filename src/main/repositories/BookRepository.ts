@@ -5,13 +5,13 @@ import AbstractSingleton from '@utils/AbstractSingleton';
 export default class BookRepository extends AbstractSingleton {
 	private prismaService: PrismaService;
 
-	private constructor() {
+	constructor() {
 		super();
 		this.prismaService = PrismaService.getInstance();
 	}
 
 	public static getInstance(): BookRepository {
-		return super._getInstance<BookRepository>();
+		return BookRepository._getInstance<BookRepository>();
 	}
 
 	async create(data: Omit<Book, 'id'>): Promise<Book> {

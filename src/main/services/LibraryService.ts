@@ -21,7 +21,7 @@ export default class LibraryService extends AbstractSingleton {
 	}
 
 	public static getInstance(): LibraryService {
-		return super._getInstance<LibraryService>();
+		return LibraryService._getInstance<LibraryService>();
 	}
 
 	async getAllBooks(): Promise<Book[]> {

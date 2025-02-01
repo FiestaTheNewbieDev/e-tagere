@@ -9,7 +9,7 @@ export default class LocaleService extends AbstractSingleton {
 	private i18nService: I18nService;
 	private locale: Locale<LocaleCode> = LOCALES['en-US'];
 
-	private constructor() {
+	constructor() {
 		super();
 
 		this.configService = ConfigService.getInstance();
@@ -19,7 +19,7 @@ export default class LocaleService extends AbstractSingleton {
 	}
 
 	public static getInstance(): LocaleService {
-		return super._getInstance<LocaleService>();
+		return LocaleService._getInstance<LocaleService>();
 	}
 
 	public getLocale(): Locale<LocaleCode> {

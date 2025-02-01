@@ -1,22 +1,14 @@
 import AbstractSingleton from '@utils/AbstractSingleton';
 
 class TestClassA extends AbstractSingleton {
-	constructor() {
-		super();
-	}
-
 	public static getInstance(): TestClassA {
-		return super._getInstance<TestClassA>();
+		return TestClassA._getInstance<TestClassA>();
 	}
 }
 
 class TestClassB extends AbstractSingleton {
-	constructor() {
-		super();
-	}
-
 	public static getInstance(): TestClassB {
-		return super._getInstance<TestClassB>();
+		return TestClassB._getInstance<TestClassB>();
 	}
 }
 
