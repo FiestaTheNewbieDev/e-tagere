@@ -1,4 +1,4 @@
-import DialogService from '@main/services/DialogService';
+import DialogService from '@services/DialogService';
 import { BrowserWindow, ipcMain, IpcMainInvokeEvent } from 'electron';
 
 export function handleDialogRequests() {

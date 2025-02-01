@@ -1,4 +1,4 @@
-import I18nService from '@main/services/I18nService';
+import I18nService from '@services/I18nService';
 import { ipcMain, IpcMainInvokeEvent } from 'electron';
 
 export default function handleI18nRequests() {
