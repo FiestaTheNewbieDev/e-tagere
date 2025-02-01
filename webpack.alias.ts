@@ -2,6 +2,7 @@ import path from 'path';
 
 export const alias = {
 	'@main': path.resolve(__dirname, 'src/main'),
+	'@repositories': path.resolve(__dirname, 'src/main/repositories'),
 	'@services': path.resolve(__dirname, 'src/main/services'),
 	'@preload': path.resolve(__dirname, 'src/preload'),
 	'@renderer': path.resolve(__dirname, 'src/renderer'),

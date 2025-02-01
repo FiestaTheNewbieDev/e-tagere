@@ -18,6 +18,7 @@
 		"isolatedModules": true,
 		"incremental": true,
 		"paths": {
+			"@repositories/*": ["src/main/repositories/*"],
 			"@services/*": ["src/main/services/*"],
 			"@main/*": ["src/main/*"],
 			"@preload/*": ["src/preload/*"],
