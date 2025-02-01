@@ -13,7 +13,7 @@ module.exports = {
 			displayName: 'main',
 			testMatch: ['<rootDir>/__tests__/main/**/*.test.ts'],
 			testEnvironment: 'node',
-			setupFilesAfterEnv: ['<rootDir>/jest.setup.main.js'],
+			setupFilesAfterEnv: ['<rootDir>/jest.main.setup.js'],
 			moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 				prefix: '<rootDir>/',
 			}),
@@ -22,7 +22,7 @@ module.exports = {
 			displayName: 'renderer',
 			testMatch: ['<rootDir>/__tests__/renderer/**/*.test.ts'],
 			testEnvironment: 'jsdom',
-			setupFilesAfterEnv: ['<rootDir>/jest.setup.renderer.js'],
+			setupFilesAfterEnv: ['<rootDir>/jest.renderer.setup.js'],
 			moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 				prefix: '<rootDir>/',
 			}),

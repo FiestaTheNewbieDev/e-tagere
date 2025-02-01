@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 jest.mock('electron', () => ({
 	app: {
 		isReady: jest.fn(() => true),
