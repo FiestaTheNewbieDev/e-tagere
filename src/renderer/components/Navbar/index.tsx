@@ -1,15 +1,17 @@
 import { Button } from '@components/Button';
-import { useLayout } from '@contexts/LayoutContext';
+import { useLibraryCtx } from '@contexts/LibraryContext';
+import LibraryActions from '@store/library/actions';
+// import { useLayout } from '@contexts/LayoutContext';
 import { Plus } from 'lucide-react';
 import './style.scss';
 
 export default function Navbar() {
-	const layout = useLayout();
+	const { tab } = useLibraryCtx();
+	// const layout = useLayout();
 
-	const handleAddBooks = async () =>
-		await window.electronAPI.dialog.importBooks();
-	const handleAddFolder = async () =>
-		await window.electronAPI.dialog.importFolder();
+	const handleAddBooks = () => LibraryActions.addBooks(tab!);
+	// const handleAddFolder = async () =>
+	// 	await window.electronAPI.dialog.importFolder();
 
 	return (
 		<nav className="navbar">

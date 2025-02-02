@@ -1,5 +1,6 @@
 import StoreProvider from '@renderer/components/StoreProvider';
 import DefaultLayout from '@renderer/layouts/DefaultLayout';
+import LibraryLayout from '@renderer/layouts/LibraryLayout';
 import ReaderLayout from '@renderer/layouts/ReaderLayout';
 import About from '@views/About';
 import Library from '@views/Library';
@@ -16,7 +17,9 @@ export default function App() {
 						path="/"
 						element={
 							<DefaultLayout>
-								<Library tab="ALL" />
+								<LibraryLayout>
+									<Library />
+								</LibraryLayout>
 							</DefaultLayout>
 						}
 					/>
@@ -24,7 +27,9 @@ export default function App() {
 						path="/last-reads"
 						element={
 							<DefaultLayout>
-								<Library tab="LAST_READS" />
+								<LibraryLayout>
+									<Library tab="LAST_READS" />
+								</LibraryLayout>
 							</DefaultLayout>
 						}
 					/>
@@ -32,7 +37,9 @@ export default function App() {
 						path="/favorites"
 						element={
 							<DefaultLayout>
-								<Library tab="FAVORITES" />
+								<LibraryLayout>
+									<Library tab="FAVORITES" />
+								</LibraryLayout>
 							</DefaultLayout>
 						}
 					/>

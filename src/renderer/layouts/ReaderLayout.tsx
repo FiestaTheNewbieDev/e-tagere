@@ -1,4 +1,3 @@
-import ReaderNavbar from '@components/ReaderNavbar';
 import { ReaderProvider } from '@contexts/ReaderContext';
 
 export default function ReaderLayout({
@@ -9,7 +8,7 @@ export default function ReaderLayout({
 	return (
 		<ReaderProvider>
 			{children}
-			<ReaderNavbar />
+			{/* <ReaderNavbar /> */}
 		</ReaderProvider>
 	);
 }

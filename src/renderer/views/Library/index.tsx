@@ -5,6 +5,7 @@ import ContextMenu, {
 } from '@components/ContextMenu';
 import Spinner from '@components/Spinner';
 import { useLayout } from '@contexts/LayoutContext';
+import { useLibraryCtx } from '@contexts/LibraryContext';
 import { Book } from '@myTypes/ebook';
 import LibraryActions from '@store/library/actions';
 import useLibrary from '@store/library/selector';
@@ -15,6 +16,7 @@ import './style.scss';
 const LOADING_STATUS = ['NOT_FETCHED', 'FETCHING'];
 
 export default function Library({ tab = 'ALL' }: { tab?: string }) {
+	const { setTab } = useLibraryCtx();
 	const library = useLibrary(tab);
 	const books = library.data.books;
 	const layout = useLayout();
@@ -27,6 +29,7 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 		useState<ContextMenuOptions>([]);
 
 	useEffect(() => {
+		setTab(tab);
 		LibraryActions.fetch(tab).catch(console.error);
 	}, [tab]);
 
