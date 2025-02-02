@@ -1,16 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { genericReducers } from '@store/generics/reducer';
-import initialState, { ReaderData } from '@store/reader/initialState';
+import sessionReducer from '@store/reader/session/reducer';
+import TOCReducer from '@store/reader/toc/reducer';
+import { combineReducers } from 'redux';
 
-const readerSlice = createSlice({
-	name: 'reader',
-	initialState,
-	reducers: {
-		...genericReducers,
-		fetchSuccess: genericReducers.fetchSuccess<ReaderData>,
-	},
+const readerReducer = combineReducers({
+	session: sessionReducer,
+	toc: TOCReducer,
 });
 
-export const readerSliceActions = readerSlice.actions;
-
-export default readerSlice.reducer;
+export default readerReducer;
