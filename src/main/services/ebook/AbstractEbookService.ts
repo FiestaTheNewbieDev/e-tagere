@@ -8,14 +8,17 @@ export default abstract class AbstractEbookService {
 		this.filePath = filePath;
 	}
 
-	public static getInstance<T extends AbstractEbookService>(
+	protected static _getInstance<T extends AbstractEbookService>(
 		this: new (filePath: string) => T,
 		filePath: string,
 	): T {
-		if (!this.instance || this.instance.filePath !== filePath) {
-			this.instance = new this(filePath);
+		if (
+			!AbstractEbookService.instance ||
+			AbstractEbookService.instance.filePath !== filePath
+		) {
+			AbstractEbookService.instance = new this(filePath);
 		}
-		return this.instance as T;
+		return AbstractEbookService.instance as T;
 	}
 
 	abstract extractMetadata(): Promise<Omit<Book, 'id' | 'path' | 'format'>>;

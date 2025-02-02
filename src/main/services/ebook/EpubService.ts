@@ -7,7 +7,6 @@ type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
 const IMAGE_REGEX = /src="([^"]+)"/g;
 
 export default class EpubService extends AbstractEbookService {
-	protected static instance: EpubService;
 	private epub: EPub | null = null;
 
 	constructor(filePath: string) {
@@ -15,7 +14,7 @@ export default class EpubService extends AbstractEbookService {
 	}
 
 	public static getInstance(filePath: string): EpubService {
-		return super.getInstance.call(this, filePath) as EpubService;
+		return super._getInstance<EpubService>(filePath);
 	}
 
 	private async initialize(): Promise<void> {
@@ -49,6 +48,7 @@ export default class EpubService extends AbstractEbookService {
 
 		let cover = null;
 		if (metadata.cover) cover = await this.getImageBase64(metadata.cover);
+
 		return {
 			title: metadata.title,
 			cover: cover,
@@ -58,7 +58,7 @@ export default class EpubService extends AbstractEbookService {
 			publisher: metadata.publisher || null,
 			subject: metadata.subject || null,
 			description: metadata.description || null,
-			date: new Date(metadata.date) || null,
+			date: metadata.date ? new Date(metadata.date).toISOString() : null,
 			rights: null,
 			coverage: null,
 			source: null,
