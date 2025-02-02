@@ -2,6 +2,11 @@ import { librarySliceActions } from '@renderer/store/library/reducer';
 import store from '@renderer/store/store';
 
 export default class LibraryActions {
+	static async addBooks(tab: string): Promise<void> {
+		await window.electronAPI.dialog.importBooks();
+		await LibraryActions.fetch(tab);
+	}
+
 	static fetchAll(): Promise<void> {
 		return LibraryActions.fetch('ALL');
 	}
@@ -11,10 +16,11 @@ export default class LibraryActions {
 	}
 
 	static async fetch(tab: string): Promise<void> {
+		console.log(`Fetching ${tab} library tab`);
+
 		const state = store.getState().library[tab];
 
-		if (state.status === 'FETCHING')
-			return Promise.reject('Library is already being fetched');
+		if (state.status === 'FETCHING') return;
 
 		store.dispatch(librarySliceActions.startFetching({ tab }));
 

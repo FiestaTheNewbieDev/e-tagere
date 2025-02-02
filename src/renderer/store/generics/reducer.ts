@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { FetchStatus, GenericState } from '@store/generics/initialState';
 
-type FetchSuccessPayload<T> = {
+export type FetchSuccessPayload<T> = {
 	data: T;
 };
 
