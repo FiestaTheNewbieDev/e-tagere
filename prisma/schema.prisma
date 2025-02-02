@@ -35,7 +35,7 @@ model Book {
   publisher   String?
   subject     String?
   description String?
-  date        DateTime?
+  date        String?
   rights      String?
   coverage    String?
   source      String?
