@@ -15,9 +15,7 @@ export default class ReaderActions {
 
 			console.log(response.content);
 
-			store.dispatch(
-				sessionSliceActions.fetchSuccess({ data: response }),
-			);
+			store.dispatch(sessionSliceActions.fetchSuccess(response));
 		} catch (error) {
 			store.dispatch(sessionSliceActions.fetchError(error));
 			return Promise.reject(error);
