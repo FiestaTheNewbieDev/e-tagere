@@ -1,4 +1,5 @@
 export type TOCElement = {
+	id: string;
 	title: string;
 	href: string;
 };
