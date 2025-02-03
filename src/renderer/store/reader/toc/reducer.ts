@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FetchSuccessPayload, genericReducers } from '@store/generics/reducer';
+import { genericReducers } from '@store/generics/reducer';
 import initialState, {
 	TOCData,
 	TOCState,
@@ -10,10 +10,8 @@ const tocSlice = createSlice({
 	initialState,
 	reducers: {
 		...genericReducers,
-		fetchSuccess: (
-			state: TOCState,
-			action: PayloadAction<FetchSuccessPayload<TOCData>>,
-		) => genericReducers.fetchSuccess<TOCData>(state, action),
+		fetchSuccess: (state: TOCState, action: PayloadAction<TOCData>) =>
+			genericReducers.fetchSuccess<TOCData>(state, action),
 	},
 });
 
