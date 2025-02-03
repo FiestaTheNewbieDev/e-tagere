@@ -1,18 +1,18 @@
+import { ReadingSession } from '@prisma/client';
 import genericInitialState, {
 	GenericState,
 } from '@store/generics/initialState';
 
 export type SessionData = {
-	session: {};
+	session: ReadingSession;
+	content: string;
 };
 
-export type SessionState = GenericState<SessionData>;
+export type SessionState = GenericState<SessionData | null>;
 
 const initialState: SessionState = {
 	...genericInitialState,
-	data: {
-		session: {},
-	},
+	data: null,
 };
 
 export default initialState;

@@ -4,20 +4,27 @@ import { tocSliceActions } from '@store/reader/toc/reducer';
 import store from '@store/store';
 
 export default class ReaderActions {
-	static async fetchReadingSession() {
+	static async fetchSession(bookId: number) {
 		const state = store.getState().reader.session;
 
 		if (state.status === FetchStatus.FETCHING) return;
 
 		try {
-			console.log('Fetching reading session');
+			const response =
+				await window.electronAPI.reader.getReadingSession(bookId);
+
+			console.log(response.content);
+
+			store.dispatch(
+				sessionSliceActions.fetchSuccess({ data: response }),
+			);
 		} catch (error) {
 			store.dispatch(sessionSliceActions.fetchError(error));
 			return Promise.reject(error);
 		}
 	}
 
-	static async fetchTOC() {
+	static async fetchTOC(bookId: number) {
 		const state = store.getState().reader.toc;
 
 		if (state.status === FetchStatus.FETCHING) return;

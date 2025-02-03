@@ -30,7 +30,7 @@ function ReaderProvider({ children }: { children: ReactNode }) {
 	);
 }
 
-const useReader = () => useContext(ReaderContext);
+const useReaderCtx = () => useContext(ReaderContext);
 
 export default ReaderContext;
-export { ReaderProvider, useReader };
+export { ReaderProvider, useReaderCtx };

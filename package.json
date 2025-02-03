@@ -24,7 +24,7 @@
 		"install:deb": "sudo apt-get remove e-tagere || true && sudo apt-get install $(ls -t ./out/make/deb/x64/e-tagere_*_amd64.deb | head -n 1)"
 	},
 	"dependencies": {
-		"@prisma/client": "^6.2.1",
+		"@prisma/client": "^6.3.0",
 		"@reduxjs/toolkit": "^2.5.0",
 		"@types/react": "^19.0.4",
 		"@types/react-dom": "^19.0.2",

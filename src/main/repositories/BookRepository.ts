@@ -1,4 +1,4 @@
-import { Book } from '@prisma/client';
+import { Book, Prisma } from '@prisma/client';
 import PrismaService from '@services/PrismaService';
 import AbstractSingleton from '@utils/AbstractSingleton';
 
@@ -20,27 +20,40 @@ export default class BookRepository extends AbstractSingleton {
 		});
 	}
 
-	async findById(id: number): Promise<Book | null> {
+	async findById(
+		id: number,
+		args?: Omit<Prisma.BookFindFirstArgs, 'where'>,
+	): Promise<Book | null> {
 		return this.prismaService.book.findFirst({
 			where: {
 				id,
 			},
+			...args,
 		});
 	}
 
-	async findByPath(path: string): Promise<Book | null> {
+	async findByPath(
+		path: string,
+		args?: Omit<Prisma.BookFindFirstArgs, 'where'>,
+	): Promise<Book | null> {
 		return this.prismaService.book.findFirst({
 			where: {
 				path,
 			},
+			...args,
 		});
 	}
 
-	async findAll(): Promise<Book[]> {
-		return this.prismaService.book.findMany();
+	async findAll(
+		args?: Omit<Prisma.BookFindManyArgs, 'where'>,
+	): Promise<Book[]> {
+		return this.prismaService.book.findMany(args);
 	}
 
-	async findByLabel(label: string): Promise<Book[]> {
+	async findByLabel(
+		label: string,
+		args?: Omit<Prisma.BookFindManyArgs, 'where'>,
+	): Promise<Book[]> {
 		return this.prismaService.book.findMany({
 			where: {
 				labels: {
@@ -52,6 +65,7 @@ export default class BookRepository extends AbstractSingleton {
 			include: {
 				labels: true,
 			},
+			...args,
 		});
 	}
 
@@ -83,5 +97,16 @@ export default class BookRepository extends AbstractSingleton {
 		if (!book) return Promise.reject('Book not found');
 
 		return book;
+	}
+
+	async addReadingSession(bookId: number, readingSessionId: number) {
+		await this.prismaService.book.update({
+			where: {
+				id: bookId,
+			},
+			data: {
+				readingSessionId,
+			},
+		});
 	}
 }

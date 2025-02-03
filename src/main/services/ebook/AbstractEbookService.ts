@@ -21,10 +21,12 @@ export default abstract class AbstractEbookService {
 		return AbstractEbookService.instance as T;
 	}
 
-	abstract extractMetadata(): Promise<Omit<Book, 'id' | 'path' | 'format'>>;
+	abstract extractMetadata(): Promise<
+		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
+	>;
 	abstract extractTOC(): Promise<TOC>;
-	abstract getChapter(href: string): Promise<string>;
-	abstract getFormattedChapter(href: string): Promise<string>;
+	abstract getChapter(id: string, href: string): Promise<string>;
+	abstract getFormattedChapter(id: string, href: string): Promise<string>;
 
 	getFilePath(): string {
 		return this.filePath;

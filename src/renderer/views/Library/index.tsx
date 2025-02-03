@@ -1,4 +1,5 @@
 import BookCard from '@components/BookCard';
+import { Button } from '@components/Button';
 import ContextMenu, {
 	ContextMenuOptions,
 	ContextMenuPosition,
@@ -30,8 +31,12 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 
 	useEffect(() => {
 		setTab(tab);
-		LibraryActions.fetch(tab).catch(console.error);
+		fetchLibrary();
 	}, [tab]);
+
+	function fetchLibrary() {
+		LibraryActions.fetch(tab).catch(console.error);
+	}
 
 	function handleContextMenu(
 		event: React.MouseEvent<HTMLDivElement>,
@@ -72,22 +77,26 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 
 	return (
 		<main className="library">
-			{layout.library.display === 'grid' && (
-				<div className="library__cards-container__grid">
-					{books.map((book) => (
-						<BookCard
-							key={book.id}
-							book={book}
-							onContextMenu={(event) =>
-								handleContextMenu(event, book)
-							}
-						/>
-					))}
-				</div>
-			)}
+			{![...LOADING_STATUS, 'ERRORED'].includes(library.status) && (
+				<>
+					{layout.library.display === 'grid' && (
+						<div className="library__cards-container__grid">
+							{books.map((book) => (
+								<BookCard
+									key={book.id}
+									book={book}
+									onContextMenu={(event) =>
+										handleContextMenu(event, book)
+									}
+								/>
+							))}
+						</div>
+					)}
 
-			{layout.library.display === 'list' && (
-				<div className="library__cards-container__list"></div>
+					{layout.library.display === 'list' && (
+						<div className="library__cards-container__list"></div>
+					)}
+				</>
 			)}
 
 			<ContextMenu
@@ -102,6 +111,16 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 				data-visible={LOADING_STATUS.includes(library.status)}
 			>
 				<Spinner />
+			</div>
+
+			<div
+				className="library__error-container"
+				data-visible={library.status === 'ERRORED'}
+			>
+				<p>Oops, an error occurred!</p>
+				<Button variant="secondary-outline" onClick={fetchLibrary}>
+					Try again
+				</Button>
 			</div>
 		</main>
 	);

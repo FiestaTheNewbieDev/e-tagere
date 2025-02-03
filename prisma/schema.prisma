@@ -40,6 +40,9 @@ model Book {
   coverage    String?
   source      String?
 
+  readingSessionId Int? @map("reading_session_id")
+  readingSession   ReadingSession? @relation(fields: [readingSessionId], references: [id])
+
   labels      BookLabel[]
 }
 
@@ -61,4 +64,16 @@ model Label {
   name String
 
   books BookLabel[]
+}
+
+model ReadingSession {
+  @@map("reading_session")
+
+  id     Int     @id @default(autoincrement())
+
+  chapterId String @map("chapter_id")
+  chapterHref String @map("chapter_href")
+  textOffset  Int    @map("text_offset") @default(0)
+
+  Books  Book[]
 }

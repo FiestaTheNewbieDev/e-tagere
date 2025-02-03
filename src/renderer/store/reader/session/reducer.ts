@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FetchSuccessPayload, genericReducers } from '@store/generics/reducer';
+import { genericReducers } from '@store/generics/reducer';
 import initialState, {
 	SessionData,
 	SessionState,
@@ -12,7 +12,7 @@ const sessionSlice = createSlice({
 		...genericReducers,
 		fetchSuccess: (
 			state: SessionState,
-			action: PayloadAction<FetchSuccessPayload<SessionData>>,
+			action: PayloadAction<SessionData>,
 		) => genericReducers.fetchSuccess<SessionData>(state, action),
 	},
 });

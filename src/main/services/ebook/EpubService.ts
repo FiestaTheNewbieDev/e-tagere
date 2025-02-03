@@ -4,9 +4,10 @@ import EPub from 'epub';
 
 type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
 
-const IMAGE_REGEX = /src="([^"]+)"/g;
+const IMAGE_REGEX = /src="([^"]+\.(?:jpg|jpeg|png|gif|bmp))"/g;
 
 export default class EpubService extends AbstractEbookService {
+	private initializing: Promise<void> | null = null;
 	private epub: EPub | null = null;
 
 	constructor(filePath: string) {
@@ -19,10 +20,11 @@ export default class EpubService extends AbstractEbookService {
 
 	private async initialize(): Promise<void> {
 		if (this.epub) return;
+		if (this.initializing) return this.initializing;
 
 		this.epub = new EPub(this.filePath);
 
-		return new Promise((resolve, reject) => {
+		this.initializing = new Promise((resolve, reject) => {
 			this.epub!.on('end', resolve);
 			this.epub!.on('error', (error) => {
 				this.epub = null;
@@ -30,6 +32,8 @@ export default class EpubService extends AbstractEbookService {
 			});
 			this.epub!.parse();
 		});
+
+		await this.initializing;
 	}
 
 	async close(): Promise<void> {
@@ -39,7 +43,9 @@ export default class EpubService extends AbstractEbookService {
 		}
 	}
 
-	async extractMetadata(): Promise<Omit<Book, 'id' | 'path' | 'format'>> {
+	async extractMetadata(): Promise<
+		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
+	> {
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
@@ -71,25 +77,10 @@ export default class EpubService extends AbstractEbookService {
 		if (!this.epub) return Promise.reject('Epub not initialized');
 
 		return this.epub.toc.map((item) => ({
+			id: item.id,
 			title: item.title,
 			href: item.href,
 		}));
-	}
-
-	async getChapter(href: string): Promise<string> {
-		await this.initialize();
-
-		if (!this.epub) return Promise.reject('Epub not initialized');
-
-		return new Promise((resolve, reject) => {
-			this.epub!.getChapter(href, (err, text) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(text);
-				}
-			});
-		});
 	}
 
 	async getImageBase64(href: string): Promise<string> {
@@ -109,8 +100,47 @@ export default class EpubService extends AbstractEbookService {
 		});
 	}
 
-	async getFormattedChapter(href: string): Promise<string> {
-		const rawContent = await this.getChapter(href);
+	async getChapter(id: string, href: string): Promise<string> {
+		await this.initialize();
+
+		if (!this.epub) return Promise.reject('Epub not initialized');
+
+		return Promise.any([
+			new Promise<string>((resolve, reject) => {
+				this.epub!.getChapter(id, (err, text) => {
+					if (err) {
+						reject(
+							new Error(
+								`Error getting chapter by id: ${err.message}`,
+							),
+						);
+					} else if (!text) {
+						reject(new Error('Chapter by id is empty'));
+					} else {
+						resolve(text);
+					}
+				});
+			}),
+			new Promise<string>((resolve, reject) => {
+				this.epub!.getChapter(href, (err, text) => {
+					if (err) {
+						reject(
+							new Error(
+								`Error getting chapter by href: ${err.message}`,
+							),
+						);
+					} else if (!text) {
+						reject(new Error('Chapter by href is empty'));
+					} else {
+						resolve(text);
+					}
+				});
+			}),
+		]);
+	}
+
+	async getFormattedChapter(id: string, href: string): Promise<string> {
+		const rawContent = await this.getChapter(id, href);
 
 		let match;
 		let formattedContent = rawContent;
