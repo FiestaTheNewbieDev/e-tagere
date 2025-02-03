@@ -3,6 +3,7 @@ import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EPub from 'epub';
 
 type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
+type ManifestEntry = { id: string; href: string };
 
 const IMAGE_REGEX = /src="([^"]+\.(?:jpg|jpeg|png|gif|bmp))"/g;
 
@@ -91,7 +92,9 @@ export default class EpubService extends AbstractEbookService {
 		return new Promise((resolve, reject) => {
 			this.epub!.getImage(href, (err, data, mimeType) => {
 				if (err) {
-					reject(err);
+					reject(
+						new Error(`Error getting base64 image by href: ${err}`),
+					);
 				} else {
 					const base64Image = `data:${mimeType};base64,${data.toString('base64')}`;
 					resolve(base64Image);
@@ -139,20 +142,41 @@ export default class EpubService extends AbstractEbookService {
 		]);
 	}
 
+	private getManifestEntry(href: string): ManifestEntry | null {
+		if (!this.epub) return null;
+
+		const manifestEntries = Object.values(this.epub.manifest);
+
+		for (const entry of manifestEntries) {
+			if (entry.href.endsWith(href) || entry.href.includes(href)) {
+				return { id: entry.id, href: entry.href };
+			}
+		}
+
+		return null;
+	}
+
 	async getFormattedChapter(id: string, href: string): Promise<string> {
 		const rawContent = await this.getChapter(id, href);
 
-		let match;
+		const matches = rawContent.matchAll(IMAGE_REGEX);
 		let formattedContent = rawContent;
 
-		while ((match = IMAGE_REGEX.exec(rawContent)) !== null) {
+		for (const match of matches) {
 			const imagePath = match[1];
-			const imageBase64 = await this.getImageBase64(imagePath);
-			if (imageBase64) {
+			try {
+				const href = this.getManifestEntry(imagePath)?.href;
+
+				if (!href) continue;
+
+				const imageBase64 = await this.getImageBase64(href);
+
 				formattedContent = formattedContent.replace(
 					match[0],
 					`src="${imageBase64}"`,
 				);
+			} catch (error) {
+				console.error(`Failed to load image: ${imagePath}`, error);
 			}
 		}
 
