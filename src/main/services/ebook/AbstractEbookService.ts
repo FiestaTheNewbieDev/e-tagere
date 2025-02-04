@@ -16,11 +16,15 @@ export default abstract class AbstractEbookService {
 			!AbstractEbookService.instance ||
 			AbstractEbookService.instance.filePath !== filePath
 		) {
+			if (AbstractEbookService.instance) {
+				AbstractEbookService.instance.close();
+			}
 			AbstractEbookService.instance = new this(filePath);
 		}
 		return AbstractEbookService.instance as T;
 	}
 
+	abstract close(): Promise<void>;
 	abstract extractMetadata(): Promise<
 		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
 	>;

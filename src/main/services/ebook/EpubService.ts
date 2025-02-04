@@ -41,6 +41,7 @@ export default class EpubService extends AbstractEbookService {
 
 	async close(): Promise<void> {
 		if (this.epub) {
+			this.initializing = null;
 			this.epub.removeAllListeners();
 			this.epub = null;
 		}
