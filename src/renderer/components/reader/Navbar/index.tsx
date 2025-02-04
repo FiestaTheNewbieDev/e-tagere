@@ -1,7 +1,11 @@
+import { Button } from '@components/Button';
 import { useReaderCtx } from '@contexts/ReaderContext';
+import { Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 
 export default function Navbar() {
+	const navigate = useNavigate();
 	const { book, context } = useReaderCtx();
 
 	function handleHover() {
@@ -14,7 +18,15 @@ export default function Navbar() {
 			<div
 				className="reader__navbar"
 				{...(context.isOpen && { 'data-open': true })}
-			></div>
+			>
+				<div className="left">
+					<Button variant="primary" onClick={() => navigate('/')}>
+						<Home />
+						Go back to library
+					</Button>
+				</div>
+				<div className="right"></div>
+			</div>
 		</nav>
 	);
 }

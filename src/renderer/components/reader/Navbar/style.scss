@@ -23,9 +23,21 @@ nav.reader__navbar__container {
 		transform: translateY(calc(var(--height) * -1));
 		transition: all var(--transition-duration) ease-in-out;
 		border-bottom: var(--border-default);
+		opacity: 0;
+		display: flex;
+		justify-content: space-between;
+		padding-inline: var(--spacing-small);
 
 		&[data-open] {
 			transform: translateY(0);
+			opacity: 1;
+		}
+
+		& > div.left,
+		& > div.right {
+			display: flex;
+			align-items: center;
+			gap: var(--spacing-xsmall);
 		}
 	}
 }
