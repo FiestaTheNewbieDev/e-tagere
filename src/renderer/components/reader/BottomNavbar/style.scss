@@ -18,9 +18,11 @@ nav.reader__bottom-navbar__container {
 		transform: translateY(var(--height));
 		transition: all var(--transition-duration) ease-in-out;
 		border-top: var(--border-default);
+		opacity: 0;
 
 		&[data-open] {
 			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 }
