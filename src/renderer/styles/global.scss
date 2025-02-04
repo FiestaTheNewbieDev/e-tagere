@@ -16,12 +16,14 @@ body {
 	& > div#root {
 		display: grid;
 		grid-template-columns: auto 1fr;
-		grid-template-rows: auto 1fr;
+		grid-template-rows: auto 1fr auto;
 		grid-template-areas:
 			'sidebar navbar'
-			'sidebar main';
+			'sidebar main'
+			'sidebar bottom-navbar';
 		width: 100vw;
 		height: 100vh;
+		overflow: hidden;
 
 		& > aside.sidebar__container {
 			grid-area: sidebar;
@@ -31,8 +33,12 @@ body {
 			grid-area: navbar;
 		}
 
-		& > nav.reader__navbar {
+		& > nav.reader__navbar__container {
 			grid-area: navbar;
+		}
+
+		& > nav.reader__bottom-navbar__container {
+			grid-area: bottom-navbar;
 		}
 
 		& > main {

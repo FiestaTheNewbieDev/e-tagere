@@ -1,9 +1,9 @@
-import BookCard from '@components/BookCard';
 import { Button } from '@components/Button';
 import ContextMenu, {
 	ContextMenuOptions,
 	ContextMenuPosition,
 } from '@components/ContextMenu';
+import BookCard from '@components/library/BookCard';
 import Spinner from '@components/Spinner';
 import { useLayout } from '@contexts/LayoutContext';
 import { useLibraryCtx } from '@contexts/LibraryContext';

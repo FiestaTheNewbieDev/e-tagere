@@ -1,0 +1,26 @@
+nav.reader__bottom-navbar__container {
+	position: relative;
+	width: 100%;
+	min-height: var(--height);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	--height: 4rem;
+	--transition-duration: 0.3s;
+
+	& > div.reader__bottom-navbar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: var(--height);
+		transform: translateY(var(--height));
+		transition: all var(--transition-duration) ease-in-out;
+		border-top: var(--border-default);
+
+		&[data-open] {
+			transform: translateY(0);
+		}
+	}
+}

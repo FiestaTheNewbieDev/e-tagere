@@ -1,0 +1,31 @@
+nav.reader__navbar__container {
+	position: relative;
+	width: 100%;
+	min-height: var(--height);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	--height: 4rem;
+	--transition-duration: 0.3s;
+
+	& > h1.book-title {
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-normal);
+	}
+
+	& > div.reader__navbar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: var(--height);
+		transform: translateY(calc(var(--height) * -1));
+		transition: all var(--transition-duration) ease-in-out;
+		border-bottom: var(--border-default);
+
+		&[data-open] {
+			transform: translateY(0);
+		}
+	}
+}

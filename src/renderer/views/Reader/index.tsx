@@ -12,8 +12,12 @@ const LOADING_STATUS = ['NOT_FETCHED', 'FETCHING'];
 
 export default function Reader() {
 	const state: { book: Book } = useLocation().state;
-	const { book, setBook } = useReaderCtx();
+	const { book, setBook, context } = useReaderCtx();
 	const { session } = useReader();
+
+	useEffect(() => {
+		context.setIsOpen(true);
+	}, []);
 
 	useEffect(() => {
 		if (state.book !== book) {
@@ -26,8 +30,12 @@ export default function Reader() {
 		ReaderActions.fetchSession(state.book.id).catch(console.error);
 	}
 
+	function handleOnClick() {
+		context.setIsOpen(true);
+	}
+
 	return (
-		<main className="reader">
+		<main className="reader" onClick={handleOnClick}>
 			{session.status === 'FETCHED' && session.data && (
 				<div
 					className="reader__content"
