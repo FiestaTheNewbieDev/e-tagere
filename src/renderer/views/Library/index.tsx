@@ -38,19 +38,19 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 		LibraryActions.fetch(tab).catch(console.error);
 	}
 
-	function handleContextMenu(
-		event: React.MouseEvent<HTMLDivElement>,
-		book: Book,
-	) {
-		event.preventDefault();
-		setContextMenuOptions([
+	function getContextMenuOptions(books: Book[]) {
+		if (books.length > 0) return [];
+
+		return [
 			{
 				label: 'Open',
-				action: () => navigate('/reader', { state: { book } }),
+				action: () =>
+					navigate('/reader', { state: { book: books[0] } }),
 			},
 			{
 				label: 'Open in Finder',
-				action: () => window.electronAPI.dialog.openInFinder(book.path),
+				action: () =>
+					window.electronAPI.dialog.openInFinder(books[0].path),
 			},
 			// {
 			// 	label: 'Add to Favorites',
@@ -71,7 +71,15 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 			// 	label: 'Delete',
 			// 	action: () => alert(`Delete ${book.title}`),
 			// },
-		]);
+		];
+	}
+
+	function handleContextMenu(
+		event: React.MouseEvent<HTMLDivElement>,
+		book: Book,
+	) {
+		event.preventDefault();
+		setContextMenuOptions(getContextMenuOptions([book]));
 		setContextMenu({ x: event.clientX, y: event.clientY });
 	}
 
