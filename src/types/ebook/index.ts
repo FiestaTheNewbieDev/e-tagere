@@ -5,5 +5,6 @@ export type TOCElement = {
 };
 
 export type TOC = TOCElement[];
+export type ManifestEntry = { id: string; href: string };
 
 export type { Book } from '@prisma/client';
