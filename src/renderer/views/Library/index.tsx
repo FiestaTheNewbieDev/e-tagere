@@ -39,7 +39,7 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 	}
 
 	function getContextMenuOptions(books: Book[]) {
-		if (books.length > 0) return [];
+		if (books.length > 1) return [];
 
 		return [
 			{
