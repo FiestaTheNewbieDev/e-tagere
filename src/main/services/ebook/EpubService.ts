@@ -16,7 +16,7 @@ export default class EpubService extends AbstractEbookService {
 	}
 
 	public static getInstance(filePath: string): EpubService {
-		return super._getInstance<EpubService>(filePath);
+		return EpubService._getInstance<EpubService>(filePath);
 	}
 
 	private async initialize(): Promise<void> {
