@@ -25,8 +25,8 @@ export default abstract class AbstractEbookService {
 		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
 	>;
 	abstract extractTOC(): Promise<TOC>;
-	abstract getChapter(id: string, href: string): Promise<string>;
-	abstract getFormattedChapter(id: string, href: string): Promise<string>;
+	abstract getChapter(href: string): Promise<string>;
+	abstract getFormattedChapter(href: string): Promise<string>;
 
 	getFilePath(): string {
 		return this.filePath;

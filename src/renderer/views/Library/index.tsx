@@ -77,7 +77,7 @@ export default function Library({ tab = 'ALL' }: { tab?: string }) {
 
 	return (
 		<main className="library">
-			{![...LOADING_STATUS, 'ERRORED'].includes(library.status) && (
+			{library.status === 'FETCHED' && library.data.books.length && (
 				<>
 					{layout.library.display === 'grid' && (
 						<div className="library__cards-container__grid">

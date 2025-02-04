@@ -5,7 +5,7 @@ import EPub from 'epub';
 type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
 type ManifestEntry = { id: string; href: string };
 
-const IMAGE_REGEX = /src="([^"]+\.(?:jpg|jpeg|png|gif|bmp))"/g;
+const IMAGE_REGEX = /(?:src|xlink:href)="([^"]+)"/g;
 
 export default class EpubService extends AbstractEbookService {
 	private initializing: Promise<void> | null = null;
@@ -26,7 +26,10 @@ export default class EpubService extends AbstractEbookService {
 		this.epub = new EPub(this.filePath);
 
 		this.initializing = new Promise((resolve, reject) => {
-			this.epub!.on('end', resolve);
+			this.epub!.on('end', () => {
+				if (!this.epub)
+					return reject(new Error('Epub not initialized'));
+			});
 			this.epub!.on('error', (error) => {
 				this.epub = null;
 				reject(error);
@@ -93,7 +96,9 @@ export default class EpubService extends AbstractEbookService {
 			this.epub!.getImage(href, (err, data, mimeType) => {
 				if (err) {
 					reject(
-						new Error(`Error getting base64 image by href: ${err}`),
+						new Error(
+							`Error getting base64 image (${href}): ${err.message}`,
+						),
 					);
 				} else {
 					const base64Image = `data:${mimeType};base64,${data.toString('base64')}`;
@@ -103,43 +108,26 @@ export default class EpubService extends AbstractEbookService {
 		});
 	}
 
-	async getChapter(id: string, href: string): Promise<string> {
+	async getChapter(href: string): Promise<string> {
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
 
-		return Promise.any([
-			new Promise<string>((resolve, reject) => {
-				this.epub!.getChapter(id, (err, text) => {
-					if (err) {
-						reject(
-							new Error(
-								`Error getting chapter by id: ${err.message}`,
-							),
-						);
-					} else if (!text) {
-						reject(new Error('Chapter by id is empty'));
-					} else {
-						resolve(text);
-					}
-				});
-			}),
-			new Promise<string>((resolve, reject) => {
-				this.epub!.getChapter(href, (err, text) => {
-					if (err) {
-						reject(
-							new Error(
-								`Error getting chapter by href: ${err.message}`,
-							),
-						);
-					} else if (!text) {
-						reject(new Error('Chapter by href is empty'));
-					} else {
-						resolve(text);
-					}
-				});
-			}),
-		]);
+		return new Promise((resolve, reject) => {
+			this.epub!.getChapter(href, (err, text) => {
+				if (err) {
+					reject(
+						new Error(
+							`Error getting chapter (${href}): ${err.message}`,
+						),
+					);
+				} else if (!text) {
+					reject(new Error(`Chapter is empty (${href})`));
+				} else {
+					resolve(text);
+				}
+			});
+		});
 	}
 
 	private getManifestEntry(href: string): ManifestEntry | null {
@@ -148,7 +136,7 @@ export default class EpubService extends AbstractEbookService {
 		const manifestEntries = Object.values(this.epub.manifest);
 
 		for (const entry of manifestEntries) {
-			if (entry.href.endsWith(href) || entry.href.includes(href)) {
+			if (href.endsWith(entry.href) || href.includes(entry.href)) {
 				return { id: entry.id, href: entry.href };
 			}
 		}
@@ -156,8 +144,10 @@ export default class EpubService extends AbstractEbookService {
 		return null;
 	}
 
-	async getFormattedChapter(id: string, href: string): Promise<string> {
-		const rawContent = await this.getChapter(id, href);
+	async getFormattedChapter(href: string): Promise<string> {
+		const rawContent = await this.getChapter(href);
+
+		if (!rawContent) return Promise.reject('No content found');
 
 		const matches = rawContent.matchAll(IMAGE_REGEX);
 		let formattedContent = rawContent;
@@ -165,11 +155,15 @@ export default class EpubService extends AbstractEbookService {
 		for (const match of matches) {
 			const imagePath = match[1];
 			try {
-				const href = this.getManifestEntry(imagePath)?.href;
+				const manifestEntry = this.getManifestEntry(imagePath);
 
-				if (!href) continue;
+				if (!manifestEntry) continue;
 
-				const imageBase64 = await this.getImageBase64(href);
+				const imageBase64 = await Promise.any([
+					this.getImageBase64(manifestEntry.href),
+					this.getImageBase64(manifestEntry.id),
+					this.getImageBase64(imagePath),
+				]);
 
 				formattedContent = formattedContent.replace(
 					match[0],

@@ -74,10 +74,10 @@ export default class ReaderService {
 			});
 		}
 
-		const content = await this.ebookService.getFormattedChapter(
-			session.chapterId,
-			session.chapterHref,
-		);
+		const content = await Promise.any([
+			this.ebookService.getFormattedChapter(session.chapterHref),
+			this.ebookService.getFormattedChapter(session.chapterId),
+		]);
 
 		return { session, content };
 	}

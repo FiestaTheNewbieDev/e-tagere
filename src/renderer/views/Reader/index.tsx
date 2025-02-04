@@ -12,13 +12,15 @@ const LOADING_STATUS = ['NOT_FETCHED', 'FETCHING'];
 
 export default function Reader() {
 	const state: { book: Book } = useLocation().state;
-	const { setBook } = useReaderCtx();
+	const { book, setBook } = useReaderCtx();
 	const { session } = useReader();
 
 	useEffect(() => {
-		setBook(state.book);
-		fetchSession();
-	}, [state]);
+		if (state.book !== book) {
+			setBook(state.book);
+			fetchSession();
+		}
+	}, [state.book]);
 
 	function fetchSession() {
 		ReaderActions.fetchSession(state.book.id).catch(console.error);
@@ -26,15 +28,14 @@ export default function Reader() {
 
 	return (
 		<main className="reader">
-			{![...LOADING_STATUS, 'ERRORED'].includes(session.status) &&
-				session.data && (
-					<div
-						className="reader__content"
-						dangerouslySetInnerHTML={{
-							__html: session.data.content,
-						}}
-					/>
-				)}
+			{session.status === 'FETCHED' && session.data && (
+				<div
+					className="reader__content"
+					dangerouslySetInnerHTML={{
+						__html: session.data.content,
+					}}
+				/>
+			)}
 
 			<div
 				className="reader__loading-container"

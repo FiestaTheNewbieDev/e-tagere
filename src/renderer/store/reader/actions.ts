@@ -13,8 +13,6 @@ export default class ReaderActions {
 			const response =
 				await window.electronAPI.reader.getReadingSession(bookId);
 
-			console.log(response.content);
-
 			store.dispatch(sessionSliceActions.fetchSuccess(response));
 		} catch (error) {
 			store.dispatch(sessionSliceActions.fetchError(error));

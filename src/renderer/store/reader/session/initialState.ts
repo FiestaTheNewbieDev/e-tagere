@@ -3,9 +3,11 @@ import genericInitialState, {
 	GenericState,
 } from '@store/generics/initialState';
 
+type HTMLString = string;
+
 export type SessionData = {
 	session: ReadingSession;
-	content: string;
+	content: HTMLString;
 };
 
 export type SessionState = GenericState<SessionData | null>;
