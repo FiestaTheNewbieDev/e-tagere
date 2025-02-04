@@ -1,9 +1,8 @@
-import { Book, TOC } from '@myTypes/ebook';
+import { Book, ManifestEntry, TOC } from '@myTypes/ebook';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EPub from 'epub';
 
 type EpubMetadata = EPub.Metadata & { publisher?: string; cover?: string };
-type ManifestEntry = { id: string; href: string };
 
 const IMAGE_REGEX = /(?:src|xlink:href)="([^"]+)"/g;
 
@@ -108,6 +107,25 @@ export default class EpubService extends AbstractEbookService {
 		});
 	}
 
+	getManifestEntry(href: string): ManifestEntry | null {
+		if (!this.epub) return null;
+
+		const manifestEntries = Object.values(this.epub.manifest);
+
+		for (const entry of manifestEntries) {
+			if (
+				href.endsWith(entry.href) ||
+				href.includes(entry.href) ||
+				entry.href.endsWith(href) ||
+				entry.href.includes(href)
+			) {
+				return { id: entry.id, href: entry.href };
+			}
+		}
+
+		return null;
+	}
+
 	async getChapter(href: string): Promise<string> {
 		await this.initialize();
 
@@ -130,20 +148,6 @@ export default class EpubService extends AbstractEbookService {
 		});
 	}
 
-	private getManifestEntry(href: string): ManifestEntry | null {
-		if (!this.epub) return null;
-
-		const manifestEntries = Object.values(this.epub.manifest);
-
-		for (const entry of manifestEntries) {
-			if (href.endsWith(entry.href) || href.includes(entry.href)) {
-				return { id: entry.id, href: entry.href };
-			}
-		}
-
-		return null;
-	}
-
 	async getFormattedChapter(href: string): Promise<string> {
 		const rawContent = await this.getChapter(href);
 
@@ -156,7 +160,6 @@ export default class EpubService extends AbstractEbookService {
 			const imagePath = match[1];
 			try {
 				const manifestEntry = this.getManifestEntry(imagePath);
-
 				if (!manifestEntry) continue;
 
 				const imageBase64 = await Promise.any([
@@ -167,7 +170,7 @@ export default class EpubService extends AbstractEbookService {
 
 				formattedContent = formattedContent.replace(
 					match[0],
-					`src="${imageBase64}"`,
+					match[0].replace(imagePath, imageBase64),
 				);
 			} catch (error) {
 				console.error(`Failed to load image: ${imagePath}`, error);

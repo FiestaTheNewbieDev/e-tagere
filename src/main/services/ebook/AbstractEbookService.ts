@@ -1,4 +1,4 @@
-import { Book, TOC } from '@myTypes/ebook';
+import { Book, ManifestEntry, TOC } from '@myTypes/ebook';
 
 export default abstract class AbstractEbookService {
 	protected static instance: AbstractEbookService;
@@ -25,6 +25,7 @@ export default abstract class AbstractEbookService {
 		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
 	>;
 	abstract extractTOC(): Promise<TOC>;
+	abstract getManifestEntry(href: string): ManifestEntry | null;
 	abstract getChapter(href: string): Promise<string>;
 	abstract getFormattedChapter(href: string): Promise<string>;
 
