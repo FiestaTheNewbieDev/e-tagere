@@ -14,37 +14,25 @@ export default class EpubService extends AbstractEbookService {
 		super(filePath);
 	}
 
-	public static getInstance(filePath: string): EpubService {
-		return EpubService._getInstance<EpubService>(filePath);
-	}
-
 	private async initialize(): Promise<void> {
 		if (this.epub) return;
 		if (this.initializing) return this.initializing;
 
-		this.epub = new EPub(this.filePath);
-
 		this.initializing = new Promise((resolve, reject) => {
-			this.epub!.on('end', () => {
+			this.epub = new EPub(this.filePath);
+
+			this.epub.on('end', () => {
 				if (!this.epub)
 					return reject(new Error('Epub not initialized'));
 			});
-			this.epub!.on('error', (error) => {
+			this.epub.on('error', (error) => {
 				this.epub = null;
 				reject(error);
 			});
-			this.epub!.parse();
+			this.epub.parse();
 		});
 
 		await this.initializing;
-	}
-
-	async close(): Promise<void> {
-		if (this.epub) {
-			this.initializing = null;
-			this.epub.removeAllListeners();
-			this.epub = null;
-		}
 	}
 
 	async extractMetadata(): Promise<

@@ -12,8 +12,11 @@ export type GetReadingSessionResponse = {
 
 export default class ReaderService {
 	protected static instance: ReaderService;
+	private initializing: Promise<void> | null = null;
+
 	private bookId: number;
 	private book: Book | null = null;
+
 	private bookRepository: BookRepository;
 	private readingSessionRepository: ReadingSessionRepository;
 	private ebookService: AbstractEbookService | null = null;
@@ -26,20 +29,25 @@ export default class ReaderService {
 
 	private async initialize(): Promise<void> {
 		if (this.book) return;
+		if (this.initializing) return this.initializing;
 
-		this.book = await this.bookRepository.findById(this.bookId);
+		this.initializing = (async () => {
+			this.book = await this.bookRepository.findById(this.bookId);
 
-		if (!this.book) {
-			throw new Error(`Book not found: ${this.bookId}`);
-		}
+			if (!this.book) {
+				throw new Error(`Book not found: ${this.bookId}`);
+			}
 
-		switch (this.book.format) {
-			case 'epub':
-				this.ebookService = EpubService.getInstance(this.book.path);
-				break;
-			default:
-				throw new Error(`Unsupported format: ${this.book.format}`);
-		}
+			switch (this.book.format) {
+				case 'epub':
+					this.ebookService = new EpubService(this.book.path);
+					break;
+				default:
+					throw new Error(`Unsupported format: ${this.book.format}`);
+			}
+		})();
+
+		await this.initializing;
 	}
 
 	public static getInstance(bookId: number): ReaderService {
