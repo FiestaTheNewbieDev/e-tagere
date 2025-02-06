@@ -11,7 +11,7 @@ export default abstract class AbstractEbookService {
 		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
 	>;
 	abstract extractTOC(): Promise<TOC>;
-	abstract getManifestEntry(href: string): ManifestEntry | null;
+	abstract getManifestEntry(href: string): Promise<ManifestEntry | null>;
 	abstract getChapter(href: string): Promise<string>;
 	abstract getFormattedChapter(href: string): Promise<string>;
 

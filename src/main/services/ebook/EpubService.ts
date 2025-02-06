@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Book, ManifestEntry, TOC } from '@myTypes/ebook';
 import AbstractEbookService from '@services/ebook/AbstractEbookService';
 import EPub from 'epub';
@@ -12,24 +13,36 @@ export default class EpubService extends AbstractEbookService {
 
 	constructor(filePath: string) {
 		super(filePath);
+		this.epub = new EPub(this.filePath);
+	}
+
+	private isInitialized(): boolean {
+		return !!(
+			this.epub &&
+			this.epub?.spine?.toc &&
+			this.epub?.metadata?.title
+		);
 	}
 
 	private async initialize(): Promise<void> {
-		if (this.epub) return;
+		if (this.isInitialized()) return;
 		if (this.initializing) return this.initializing;
 
-		this.initializing = new Promise((resolve, reject) => {
-			this.epub = new EPub(this.filePath);
+		console.log(
+			`[EPUB SERVICE] Initializing epub from file: ${this.filePath}`,
+		);
 
-			this.epub.on('end', () => {
+		this.initializing = new Promise((resolve, reject) => {
+			this.epub!.on('end', () => {
 				if (!this.epub)
 					return reject(new Error('Epub not initialized'));
+				resolve();
 			});
-			this.epub.on('error', (error) => {
+			this.epub!.on('error', (error) => {
 				this.epub = null;
 				reject(error);
 			});
-			this.epub.parse();
+			this.epub!.parse();
 		});
 
 		await this.initializing;
@@ -38,6 +51,8 @@ export default class EpubService extends AbstractEbookService {
 	async extractMetadata(): Promise<
 		Omit<Book, 'id' | 'path' | 'format' | 'readingSessionId'>
 	> {
+		console.log('[EPUB SERVICE] Extracting metadata');
+
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
@@ -64,6 +79,8 @@ export default class EpubService extends AbstractEbookService {
 	}
 
 	async extractTOC(): Promise<TOC> {
+		console.log('[EPUB SERVICE] Extracting TOC');
+
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
@@ -76,6 +93,8 @@ export default class EpubService extends AbstractEbookService {
 	}
 
 	async getImageBase64(href: string): Promise<string> {
+		console.log(`[EPUB SERVICE] Get base64 image from ${href}`);
+
 		await this.initialize();
 
 		if (!this.epub) return Promise.reject('Epub not initialized');
@@ -96,7 +115,9 @@ export default class EpubService extends AbstractEbookService {
 		});
 	}
 
-	getManifestEntry(href: string): ManifestEntry | null {
+	async getManifestEntry(href: string): Promise<ManifestEntry | null> {
+		await this.initialize();
+
 		if (!this.epub) return null;
 
 		const manifestEntries = Object.values(this.epub.manifest);
@@ -138,6 +159,8 @@ export default class EpubService extends AbstractEbookService {
 	}
 
 	async getFormattedChapter(href: string): Promise<string> {
+		console.log('[EPUB SERVICE] Get formatted chapter');
+
 		const rawContent = await this.getChapter(href);
 
 		if (!rawContent) return Promise.reject('No content found');
@@ -148,7 +171,7 @@ export default class EpubService extends AbstractEbookService {
 		for (const match of matches) {
 			const imagePath = match[1];
 			try {
-				const manifestEntry = this.getManifestEntry(imagePath);
+				const manifestEntry = await this.getManifestEntry(imagePath);
 				if (!manifestEntry) continue;
 
 				const imageBase64 = await Promise.any([
